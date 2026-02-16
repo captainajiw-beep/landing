@@ -84,7 +84,7 @@
                                 <li class="menu-item has-children"><a href="#">Pages</a>
                                     <ul class="sub-menu">
                                         <li><a href="about.html">About Us</a></li>
-                                         <!-- <li><a href="services.html">Services</a>
+                                        <!-- <li><a href="services.html">Services</a>
                                             <ul class="sub-menu">
                                                 <li><a href="services.html">Services</a></li>
                                                 <li><a href="service-details.html">Service Details</a></li>
@@ -1392,25 +1392,41 @@
 
                 data.categories.forEach(room => {
                     resultContainer.innerHTML += `
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-body">
-                        <h4>${room.name}</h4>
-                        <p>Price / Night:
-                           <strong>Rp ${parseInt(room.price_per_night).toLocaleString()}</strong>
-                        </p>
-                        <p>Total ${totalNights} Nights:
-                           <strong>Rp ${parseInt(room.total_price).toLocaleString()}</strong>
-                        </p>
-                        <p>Available Units: ${room.available_units}</p>
+        <div class="room-card mb-4">
 
-                        <button class="btn btn-primary"
-                            onclick="openBookingModal('${room.category_id}', ${room.price_per_night})">
-                            Book Now
-                        </button>
-                    </div>
+            <div class="room-content">
+                <h3 class="room-title">${room.name}</h3>
+
+                <div class="room-price">
+                    Rp ${parseInt(room.price_per_night).toLocaleString()}
+                    <span>/ night</span>
                 </div>
-            `;
+
+                <div class="room-meta">
+                    <p>Total ${totalNights} Nights :
+                        <strong>Rp ${parseInt(room.total_price).toLocaleString()}</strong>
+                    </p>
+                    <p>Available Units : ${room.available_units}</p>
+                </div>
+
+                <div class="room-actions">
+                    <a href="room-details.html?id=${room.category_id}"
+                       class="btn-detail">
+                       View Detail
+                    </a>
+
+                    <button class="btn-book"
+                        onclick="openBookingModal('${room.category_id}', ${room.price_per_night})">
+                        Book Now
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    `;
                 });
+
+
 
             } catch (error) {
                 console.error(error);
@@ -1544,58 +1560,54 @@
 
 
 
-    <!-- Modern Booking Modal -->
     <div class="modal fade" id="bookingModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content shadow-lg rounded-3 border-0">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content booking-modal">
 
                 <!-- Header -->
-                <div class="modal-header border-0">
+                <div class="modal-header booking-header">
                     <h5 class="modal-title">Complete Your Booking</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <!-- Body -->
                 <div class="modal-body">
-                    <!-- Info Unit akan diinject lewat JS -->
-                    <div id="unitInfo" class="p-3 mb-3 bg-light rounded-3 shadow-sm">
-                        <!-- Contoh:
-          <p><strong>Unit Selected:</strong> Standard Room 1</p>
-          <p><strong>Price per Night:</strong> Rp 500.000</p>
-          <p><strong>Total 2 Nights:</strong> Rp 1.000.000</p>
-          -->
+
+                    <!-- Info Unit -->
+                    <div id="unitInfo" class="unit-info-box">
                     </div>
 
-                    <!-- Form Booking -->
                     <form id="bookingForm">
                         <input type="hidden" id="selectedUnit">
 
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" id="guestName" class="form-control" placeholder="Your full name"
-                                required>
+                            <label>Name</label>
+                            <input type="text" id="guestName" class="form-control custom-input"
+                                placeholder="Your full name" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" id="guestEmail" class="form-control" placeholder="you@example.com"
-                                required>
+                            <label>Email</label>
+                            <input type="email" id="guestEmail" class="form-control custom-input"
+                                placeholder="you@example.com" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Phone</label>
-                            <input type="text" id="guestPhone" class="form-control" placeholder="+62 812 3456 7890"
-                                required>
+                            <label>Phone</label>
+                            <input type="text" id="guestPhone" class="form-control custom-input"
+                                placeholder="+62 812 3456 7890" required>
                         </div>
 
-                        <button type="submit" class="btn btn-success w-100">
+                        <button type="submit" class="btn-confirm w-100">
                             Confirm Booking
                         </button>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
+
 
 
 </body>
