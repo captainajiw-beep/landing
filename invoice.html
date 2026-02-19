@@ -1,0 +1,307 @@
+<style>
+    body {
+        background: #f4f6f9;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .invoice-wrapper {
+        max-width: 750px;
+        margin: 50px auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 40px;
+    }
+
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .invoice-title {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .status-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .status-hold {
+        background: #fff4d6;
+        color: #b78100;
+    }
+
+    .status-paid {
+        background: #e6f7ed;
+        color: #1a7f37;
+    }
+
+    .status-cancelled {
+        background: #fdecea;
+        color: #b42318;
+    }
+
+    .section {
+        margin-bottom: 25px;
+    }
+
+    .section h4 {
+        margin-bottom: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        color: #666;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .total-section {
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+        margin-top: 20px;
+    }
+
+    .total-amount {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .btn-pay {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        color: white;
+        margin-top: 25px;
+        transition: 0.3s;
+    }
+
+    .btn-pay:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="invoice-wrapper">
+
+    <div class="invoice-header">
+        <div>
+            <div class="invoice-title">Hotel Invoice</div>
+            <div id="inv-code"></div>
+        </div>
+        <div id="inv-status" class="status-badge"></div>
+    </div>
+
+    <div class="section">
+        <h4>Guest Information</h4>
+        <div class="row"><span>Name</span><span id="inv-name"></span></div>
+        <div class="row"><span>Email</span><span id="inv-email"></span></div>
+        <div class="row"><span>Phone</span><span id="inv-phone"></span></div>
+    </div>
+
+    <div class="section">
+        <h4>Stay Detail</h4>
+        <div class="row"><span>Check In</span><span id="inv-checkin"></span></div>
+        <div class="row"><span>Check Out</span><span id="inv-checkout"></span></div>
+        <div class="row"><span>Nights</span><span id="inv-nights"></span></div>
+    </div>
+    <div class="section">
+        <h4>Booked Room</h4>
+        <div id="unit-container"></div>
+    </div>
+
+
+
+    <div class="section">
+        <h4>Payment Summary</h4>
+        <div class="row"><span>Room Rate</span><span id="inv-room"></span></div>
+        <div class="row"><span>Service Charge (10%)</span><span id="inv-service"></span></div>
+        <div class="row"><span>Tax (11%)</span><span id="inv-tax"></span></div>
+
+        <div class="total-section">
+            <div class="row total-amount">
+                <span>Total</span>
+                <span id="inv-total"></span>
+            </div>
+        </div>
+    </div>
+
+    <button id="btn-pay" class="btn-pay">Pay Now</button>
+
+</div>
+
+<script>
+    const API_BASE = "https://booking.balihos.my.id";
+    const API_SLUG = "goagong";
+
+    function formatRupiah(amount) {
+        return "Rp " + Number(amount).toLocaleString("id-ID");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const btnPay = document.getElementById("btn-pay");
+        const unitContainer = document.getElementById("unit-container");
+
+        const params = new URLSearchParams(window.location.search);
+        const bookingCode = params.get("code");
+
+        const stored = localStorage.getItem("bookingData");
+        if (!stored) {
+            alert("No booking data found");
+            return;
+        }
+
+        const data = JSON.parse(stored);
+
+        if (data.booking_code !== bookingCode) {
+            alert("Booking code mismatch");
+            return;
+        }
+
+        const booking = data;
+        const invoice = data.invoice;
+        const items = data.items || [];
+
+        // ======================
+        // GUEST INFO
+        // ======================
+        document.getElementById("inv-code").textContent = booking.booking_code;
+        document.getElementById("inv-name").textContent = invoice.customer_name;
+        document.getElementById("inv-email").textContent = invoice.customer_email;
+        document.getElementById("inv-phone").textContent = invoice.customer_phone;
+
+        
+        // ======================
+        // ROOM DATA
+        // ======================
+        if (items.length > 0) {
+            unitContainer.innerHTML = items.map(item => `
+            <div class="row">
+                <span>${item.unit_name}</span>
+                <span>Rp ${Number(item.total_price).toLocaleString("id-ID")}</span>
+            </div>
+        `).join("");
+        } else {
+            unitContainer.innerHTML = `
+            <div class="row">
+                <span>No room data</span>
+                <span>-</span>
+            </div>
+        `;
+        }
+
+        // ======================
+        // PAYMENT SUMMARY
+        // ======================
+        const roomRate = parseFloat(booking.total_amount || 0);
+        const service = roomRate * 0.10;
+        const tax = roomRate * 0.11;
+        const total = roomRate + service + tax;
+
+        document.getElementById("inv-room").textContent =
+            "Rp " + roomRate.toLocaleString("id-ID");
+
+        document.getElementById("inv-service").textContent =
+            "Rp " + service.toLocaleString("id-ID");
+
+        document.getElementById("inv-tax").textContent =
+            "Rp " + tax.toLocaleString("id-ID");
+
+        document.getElementById("inv-total").textContent =
+            "Rp " + total.toLocaleString("id-ID");
+
+        // ======================
+        // STATUS
+        // ======================
+        const statusEl = document.getElementById("inv-status");
+        statusEl.textContent = invoice.status.toUpperCase();
+        statusEl.className = "status-badge status-hold";
+
+        // ======================
+        // PAY BUTTON
+        // ======================
+        if (invoice.status !== "paid") {
+            btnPay.style.display = "block";
+            btnPay.onclick = function () {
+                window.location.href = invoice.payment_url;
+            };
+        } else {
+            btnPay.style.display = "none";
+        }
+    });
+
+
+
+
+
+
+    async function refreshStatus(bookingCode) {
+
+        const response = await fetch(
+            `${API_BASE}/book/detail/${bookingCode}`,
+            {
+                headers: { "x-slug": API_SLUG }
+            }
+        );
+
+        const data = await response.json();
+        if (!data.success) return;
+
+        const booking = data.booking;
+        const statusEl = document.getElementById("inv-status");
+        // ========================
+        // RENDER UNITS
+        // ========================
+        const unitContainer = document.getElementById("unit-container");
+
+        if (data.units && data.units.length > 0) {
+
+            unitContainer.innerHTML = data.units.map(unit => `
+        <div class="row">
+            <span>${unit.unit_name}</span>
+            <span>${unit.category}</span>
+        </div>
+    `).join("");
+
+        } else {
+
+            unitContainer.innerHTML = `
+        <div class="row">
+            <span style="color:#999;">No room assigned</span>
+            <span>-</span>
+        </div>
+    `;
+        }
+
+        statusEl.textContent = booking.status.toUpperCase();
+        statusEl.className = "status-badge";
+
+        if (booking.status === "paid") {
+            statusEl.classList.add("status-paid");
+            document.getElementById("btn-pay").style.display = "none";
+
+            // Optional: tampilkan pesan sukses
+            alert("Payment Successful 🎉");
+        }
+        else if (booking.status === "hold") {
+            statusEl.classList.add("status-hold");
+        }
+        else {
+            statusEl.classList.add("status-cancelled");
+        }
+    }
+
+</script>
