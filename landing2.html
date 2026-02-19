@@ -2473,6 +2473,54 @@
                 padding: 2rem 1.5rem;
             }
         }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Dropdown Container */
+        .dropdown {
+            position: relative;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 120%;
+            left: 0;
+            background: #fff;
+            min-width: 180px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            padding: 10px 0;
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Dropdown Links */
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f3f3f3;
+        }
+
+        /* Show on Hover */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
     </style>
 </head>
 
@@ -2510,10 +2558,10 @@
      MOBILE NAVIGATION
      ============================================================ -->
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
-        <a href="#hero" class="mobile-nav-link">Home</a>
-        <a href="#rooms" class="mobile-nav-link">Rooms</a>
-        <a href="#facilities" class="mobile-nav-link">Facilities</a>
-        <a href="#gallery" class="mobile-nav-link">Gallery</a>
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="landing2.html" class="mobile-nav-link">sanmple1</a>
+        <a href="index4.html" class="mobile-nav-link">sample2</a>
+        <a href="https://app.balihos.my.id/">Start Trial</a>
         <a href="#testimonials" class="mobile-nav-link">Reviews</a>
         <a href="#contact" class="mobile-nav-link">Contact</a>
     </nav>
@@ -2528,13 +2576,25 @@
         </a>
 
         <nav class="nav-links" aria-label="Main navigation">
-            <a href="#hero">Home</a>
+
+            <div class="dropdown">
+                <a href="#hero" class="dropbtn">Home ▾</a>
+                <div class="dropdown-menu">
+                    <a href="index.html">Main Home</a>
+                    <a href="landing2.html">sample1</a>
+                    <a href="index4.html">sample2</a>
+                    <a href="https://app.balihos.my.id/">Start Trial</a>
+                </div>
+            </div>
+
             <a href="#rooms">Rooms</a>
             <a href="#facilities">Facilities</a>
             <a href="#gallery">Gallery</a>
             <a href="#testimonials">Reviews</a>
             <a href="#contact">Contact</a>
+
         </nav>
+
 
         <button class="btn-book" id="nav-book" aria-label="Book Now">
             <span>Book Now</span>
