@@ -1,2280 +1,1949 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BaliHos – Hotel & Villa Management System</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
-    /* ===== RESET & BASE ===== */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* ============================================================
+       BALIHOS v2 — Modern Elegant SaaS · Full Responsive + Animations
+       Design Direction: Dark luxury tech / Deep navy + warm gold
+       Typography: Cormorant Garamond (display) + DM Sans (body)
+    ============================================================ */
 
-    html {
-      scroll-behavior: smooth;
-    }
-
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #0B1C2D;
-      color: #E8E8E8;
-      line-height: 1.7;
+      font-family: 'DM Sans', sans-serif;
+      background: #080E17;
+      color: #C8D8E8;
+      line-height: 1.75;
       overflow-x: hidden;
     }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    /* ===== CSS VARIABLES ===== */
+    /* ─── CUSTOM SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #080E17; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4AF37, #8B6914); border-radius: 4px; }
+
+    /* ─── CSS VARIABLES ─── */
     :root {
-      --navy: #0B1C2D;
-      --navy-mid: #112233;
-      --navy-light: #1A3050;
-      --navy-card: #0F2540;
-      --gold: #D4AF37;
-      --gold-light: #F0CC5A;
-      --gold-dim: rgba(212, 175, 55, 0.15);
-      --gold-border: rgba(212, 175, 55, 0.3);
-      --white: #FFFFFF;
-      --text-light: #A8BBCC;
-      --text-muted: #6B8399;
-      --radius: 12px;
-      --radius-lg: 20px;
-      --shadow-gold: 0 0 40px rgba(212, 175, 55, 0.12);
-      --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --navy:        #080E17;
+      --navy-1:      #0D1825;
+      --navy-2:      #111F30;
+      --navy-3:      #162840;
+      --navy-4:      #1C3355;
+      --gold:        #D4AF37;
+      --gold-2:      #E8C84A;
+      --gold-3:      #F5DC6E;
+      --gold-dim:    rgba(212,175,55,0.12);
+      --gold-glow:   rgba(212,175,55,0.25);
+      --gold-border: rgba(212,175,55,0.28);
+      --text-bright: #EDF4FC;
+      --text-soft:   #9BB5CC;
+      --text-muted:  #5A7890;
+      --border:      rgba(255,255,255,0.07);
+      --r-sm:        10px;
+      --r-md:        16px;
+      --r-lg:        24px;
+      --r-xl:        32px;
+      --ease:        cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+      --t:           0.4s var(--ease);
     }
 
-    /* ===== TYPOGRAPHY ===== */
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-family: 'Playfair Display', serif;
-      line-height: 1.2;
-    }
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp      { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn      { from { opacity:0; } to { opacity:1; } }
+    @keyframes slideRight  { from { opacity:0; transform:translateX(-24px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes slideLeft   { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes scaleUp     { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+    @keyframes pulseDot    { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.7);} }
+    @keyframes waPulse     { 0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(37,211,102,0.4);} 70%{transform:scale(1.05);box-shadow:0 0 0 12px rgba(37,211,102,0);} }
+    @keyframes float       { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+    @keyframes shimmer     { 0%{background-position:200% center;} 100%{background-position:-200% center;} }
+    @keyframes orbitSpin   { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    @keyframes lineExpand  { from{width:0;} to{width:100%;} }
+    @keyframes countUp     { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes gradShift   { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+    @keyframes glowPulse   { 0%,100%{opacity:0.4;} 50%{opacity:0.8;} }
+    @keyframes menuSlide   { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:translateY(0);} }
 
-    h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      font-weight: 900;
+    /* ─── SCROLL REVEAL (JS-driven) ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left  { opacity:0; transform:translateX(-32px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal-left.visible { opacity:1; transform:translateX(0); }
+    .reveal-right { opacity:0; transform:translateX(32px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal-right.visible { opacity:1; transform:translateX(0); }
 
-    h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
-    }
+    /* stagger delays */
+    .delay-1 { transition-delay: 0.1s !important; }
+    .delay-2 { transition-delay: 0.2s !important; }
+    .delay-3 { transition-delay: 0.3s !important; }
+    .delay-4 { transition-delay: 0.4s !important; }
+    .delay-5 { transition-delay: 0.5s !important; }
+    .delay-6 { transition-delay: 0.6s !important; }
 
-    h3 {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
+    /* ─── UTILITIES ─── */
+    .container     { max-width: 1220px; margin: 0 auto; padding: 0 28px; }
+    .text-center   { text-align: center; }
+    .text-gold     { color: var(--gold); }
+    .section-pad   { padding: 110px 0; }
+    .section-pad-sm{ padding: 72px 0; }
 
-    p {
-      font-size: 0.97rem;
-      color: var(--text-light);
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* ===== UTILITIES ===== */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .gold {
-      color: var(--gold);
-    }
-
-    .section-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-family: 'Poppins', sans-serif;
+    /* Section label pill */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--gold-2);
       background: var(--gold-dim);
       border: 1px solid var(--gold-border);
-      padding: 6px 16px;
-      border-radius: 50px;
       margin-bottom: 20px;
     }
+    .pill::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulseDot 2s infinite;
+    }
 
-    .section-title {
+    /* Gold divider */
+    .divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      border-radius: 2px;
+      margin: 18px auto 40px;
+    }
+    .divider.left { margin: 18px 0 40px; }
+
+    /* Section headings */
+    .s-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
       margin-bottom: 14px;
     }
-
-    .section-sub {
-      color: var(--text-light);
+    .s-sub {
+      font-size: 0.97rem;
+      color: var(--text-soft);
       max-width: 540px;
       margin: 0 auto 56px;
-      font-size: 0.97rem;
     }
+    .s-sub.left { margin: 0 0 56px; }
 
-    .text-center {
-      text-align: center;
-    }
-
-    /* ===== BUTTONS ===== */
+    /* ─── BUTTONS ─── */
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 13px 28px;
-      border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.9rem;
+      border-radius: var(--r-sm);
+      font-size: 0.88rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 2px solid transparent;
+      letter-spacing: 0.02em;
+      border: 1.5px solid transparent;
+      transition: var(--t);
+      position: relative;
+      overflow: hidden;
     }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .btn:hover::after { opacity: 1; }
 
     .btn-gold {
-      background: linear-gradient(135deg, #D4AF37, #F0CC5A);
-      color: #0B1C2D;
-      border-color: var(--gold);
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #080E17;
+      box-shadow: 0 4px 24px rgba(212,175,55,0.28);
     }
-
     .btn-gold:hover {
-      background: linear-gradient(135deg, #F0CC5A, #D4AF37);
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(212, 175, 55, 0.35);
+      box-shadow: 0 12px 36px rgba(212,175,55,0.42);
     }
-
-    .btn-outline {
+    .btn-ghost {
       background: transparent;
-      color: var(--white);
-      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--text-bright);
+      border-color: rgba(255,255,255,0.2);
     }
-
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
+    .btn-ghost:hover {
+      border-color: var(--gold-border);
+      color: var(--gold-2);
       transform: translateY(-2px);
     }
+    .btn-sm { padding: 9px 20px; font-size: 0.8rem; }
+    .btn-full { width: 100%; justify-content: center; }
 
-    .btn-sm {
-      padding: 9px 20px;
-      font-size: 0.82rem;
-    }
-
-    /* ===== DIVIDER ===== */
-    .gold-line {
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      border-radius: 2px;
-      margin: 0 auto 32px;
-    }
-
-    /* ===== NAVBAR ===== */
+    /* ─── NAVBAR ─── */
     .navbar {
-      position: sticky;
-      top: 0;
+      position: fixed;
+      top: 0; left: 0; right: 0;
       z-index: 1000;
-      background: rgba(11, 28, 45, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--gold-border);
-      padding: 0 24px;
+      padding: 0 28px;
+      transition: var(--t);
     }
-
+    .navbar.scrolled {
+      background: rgba(8,14,23,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gold-border);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
     .navbar-inner {
-      max-width: 1200px;
+      max-width: 1220px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 72px;
+      height: 74px;
     }
-
     .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 900;
-      letter-spacing: -0.5px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
     }
+    .logo span { color: var(--gold); }
 
-    .logo span {
-      color: var(--gold);
-    }
-
+    /* Desktop nav links */
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 4px;
       list-style: none;
     }
-
-    .nav-links a {
-      font-size: 0.88rem;
+    .nav-links > li { position: relative; }
+    .nav-links > li > a {
+      display: block;
+      padding: 8px 14px;
+      font-size: 0.84rem;
       font-weight: 500;
-      color: var(--text-light);
-      transition: var(--transition);
-      position: relative;
+      color: var(--text-soft);
+      border-radius: 6px;
+      transition: var(--t);
     }
+    .nav-links > li > a:hover { color: var(--text-bright); background: var(--border); }
 
-    .nav-links a::after {
-      content: '';
+    /* Dropdown */
+    .nav-dropdown {
       position: absolute;
-      bottom: -4px;
+      top: calc(100% + 8px);
       left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--gold);
-      transition: width 0.3s ease;
+      min-width: 180px;
+      background: var(--navy-2);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--r-md);
+      padding: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: var(--t);
+      z-index: 100;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
-
-    .nav-links a:hover {
-      color: var(--white);
+    .nav-links > li:hover .nav-dropdown {
+      opacity: 1; visibility: visible; transform: translateY(0);
+      animation: menuSlide 0.25s var(--ease);
     }
-
-    .nav-links a:hover::after {
-      width: 100%;
+    .nav-dropdown a {
+      display: block;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      border-radius: 6px;
+      transition: var(--t);
     }
+    .nav-dropdown a:hover { background: var(--gold-dim); color: var(--gold); }
+    .has-dropdown > a::after { content: ' ▾'; font-size: 0.65rem; opacity: 0.6; }
 
-    .nav-cta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    /* Nav CTA */
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
     }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text-bright);
+      border-radius: 2px;
+      transition: var(--t);
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-    /* ===== HERO ===== */
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 74px; left: 0; right: 0;
+      background: rgba(8,14,23,0.98);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--gold-border);
+      padding: 24px 28px 32px;
+      z-index: 999;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: var(--t);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+    .mobile-nav.open { display: block; transform: translateY(0); opacity: 1; }
+    .mobile-nav a {
+      display: block;
+      padding: 13px 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-soft);
+      border-bottom: 1px solid var(--border);
+      transition: var(--t);
+    }
+    .mobile-nav a:hover { color: var(--gold); padding-left: 6px; }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav-btns { display: flex; gap: 12px; margin-top: 24px; }
+    .mobile-nav-btns .btn { flex: 1; justify-content: center; }
+
+    /* ─── HERO ─── */
     .hero {
-      min-height: 92vh;
+      min-height: 100svh;
       display: flex;
       align-items: center;
-      padding: 80px 24px;
+      padding: 100px 28px 80px;
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: '';
+    /* Animated background mesh */
+    .hero-bg {
       position: absolute;
-      top: -120px;
-      right: -120px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.07) 0%, transparent 70%);
-      border-radius: 50%;
+      inset: 0;
+      z-index: 0;
       pointer-events: none;
     }
-
-    .hero::after {
+    .hero-bg::before {
       content: '';
       position: absolute;
-      bottom: -80px;
-      left: -80px;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(26, 48, 80, 0.6) 0%, transparent 70%);
+      top: -20%;
+      right: -10%;
+      width: 60vw; height: 60vw;
+      max-width: 700px; max-height: 700px;
+      background: radial-gradient(ellipse, rgba(212,175,55,0.07) 0%, transparent 65%);
       border-radius: 50%;
-      pointer-events: none;
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      left: -10%;
+      width: 50vw; height: 50vw;
+      max-width: 600px; max-height: 600px;
+      background: radial-gradient(ellipse, rgba(26,100,180,0.06) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+
+    /* grid lines decoration */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
     }
 
     .hero-inner {
-      max-width: 1200px;
+      max-width: 1220px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 64px;
+      gap: 80px;
       align-items: center;
       position: relative;
       z-index: 1;
+      width: 100%;
     }
 
-    .hero-content {}
-
-    .hero-badge {
+    /* Hero content */
+    .hero-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: var(--gold-dim);
       border: 1px solid var(--gold-border);
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-size: 0.78rem;
+      padding: 7px 18px;
+      border-radius: 100px;
+      font-size: 0.7rem;
       font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.1em;
+      color: var(--gold-2);
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 28px;
+      animation: fadeIn 0.8s var(--ease) both;
     }
-
-    .hero-badge::before {
-      content: '';
-      width: 7px;
-      height: 7px;
+    .hero-label-dot {
+      width: 6px; height: 6px;
       background: var(--gold);
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: pulseDot 2s infinite;
     }
 
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      50% {
-        opacity: 0.5;
-        transform: scale(0.8);
-      }
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+      animation: fadeUp 0.9s var(--ease) 0.1s both;
+    }
+    .hero-h1 em {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold), var(--gold-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero-title {
-      margin-bottom: 24px;
-    }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--gold);
-    }
-
-    .hero-sub {
+    .hero-p {
       font-size: 1.05rem;
-      color: var(--text-light);
-      margin-bottom: 40px;
-      max-width: 480px;
+      color: var(--text-soft);
+      max-width: 460px;
+      margin-bottom: 36px;
+      line-height: 1.75;
+      animation: fadeUp 0.9s var(--ease) 0.2s both;
     }
 
     .hero-btns {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 48px;
+      margin-bottom: 52px;
+      animation: fadeUp 0.9s var(--ease) 0.3s both;
     }
 
+    /* Animated stat bar */
     .hero-stats {
       display: flex;
-      gap: 32px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.9s var(--ease) 0.4s both;
     }
-
-    .stat-item {}
-
+    .stat-item { }
     .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
       font-weight: 700;
       color: var(--gold);
+      line-height: 1;
+      background: linear-gradient(135deg, var(--gold), var(--gold-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+    .stat-label { font-size: 0.76rem; color: var(--text-muted); margin-top: 4px; }
 
-    .stat-label {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    /* ===== DASHBOARD MOCKUP ===== */
+    /* ─── DASHBOARD MOCKUP ─── */
     .hero-visual {
       position: relative;
+      animation: slideLeft 1s var(--ease) 0.2s both;
+    }
+
+    /* Glowing border effect */
+    .dash-glow {
+      position: absolute;
+      inset: -2px;
+      border-radius: calc(var(--r-lg) + 2px);
+      background: linear-gradient(135deg, var(--gold-border), transparent 50%, rgba(26,100,200,0.15));
+      z-index: 0;
+      filter: blur(1px);
     }
 
     .dash-wrap {
-      background: var(--navy-card);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), var(--shadow-gold);
       position: relative;
+      z-index: 1;
+      background: var(--navy-2);
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: var(--r-lg);
+      padding: 22px;
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.6),
+        0 0 60px rgba(212,175,55,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+      animation: float 6s ease-in-out infinite;
     }
 
-    .dash-topbar {
+    .dash-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
     }
-
-    .dash-dots {
-      display: flex;
-      gap: 7px;
-    }
-
+    .dash-dots { display: flex; gap: 6px; }
     .dash-dots span {
-      width: 11px;
-      height: 11px;
+      width: 10px; height: 10px;
       border-radius: 50%;
     }
-
-    .dash-dots span:nth-child(1) {
-      background: #FF5F57;
-    }
-
-    .dash-dots span:nth-child(2) {
-      background: #FEBC2E;
-    }
-
-    .dash-dots span:nth-child(3) {
-      background: #28C840;
-    }
-
-    .dash-title {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .dash-icon {
-      width: 28px;
-      height: 28px;
-      background: var(--gold-dim);
+    .dd-r { background: #FF5F57; }
+    .dd-y { background: #FEBC2E; }
+    .dd-g { background: #28C840; }
+    .dash-bar-title { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+    .dash-bar-icon {
+      width: 26px; height: 26px;
       border-radius: 6px;
+      background: var(--gold-dim);
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .dash-icon::after {
-      content: '⚙';
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--gold);
     }
 
-    .dash-stats-row {
+    /* Dash mini KPIs */
+    .dash-kpis {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .mini-stat {
-      background: var(--navy-light);
-      border-radius: 10px;
-      padding: 14px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .mini-stat-label {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .mini-stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .mini-stat-change {
-      font-size: 0.65rem;
-      color: #4CAF50;
-      margin-top: 2px;
-    }
-
-    .mini-stat-change.down {
-      color: #f44336;
-    }
-
-    .dash-chart-area {
-      background: var(--navy-light);
-      border-radius: 10px;
-      padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 16px;
-    }
-
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 10px;
       margin-bottom: 14px;
     }
-
-    .chart-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-light);
+    .dash-kpi {
+      background: var(--navy-3);
+      border-radius: var(--r-sm);
+      padding: 13px 11px;
+      border: 1px solid var(--border);
     }
+    .dk-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+    .dk-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-bright);
+    }
+    .dk-change { font-size: 0.6rem; margin-top: 3px; }
+    .up { color: #34C759; }
+    .dn { color: #FF3B30; }
 
-    .chart-badge {
-      font-size: 0.62rem;
+    /* Mini chart */
+    .dash-chart {
+      background: var(--navy-3);
+      border-radius: var(--r-sm);
+      padding: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .dc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .dc-label { font-size: 0.68rem; font-weight: 600; color: var(--text-soft); }
+    .dc-badge {
+      font-size: 0.58rem;
       background: var(--gold-dim);
       color: var(--gold);
-      padding: 3px 10px;
-      border-radius: 50px;
+      padding: 3px 8px;
+      border-radius: 100px;
       border: 1px solid var(--gold-border);
     }
-
-    .bar-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-      height: 70px;
-    }
-
-    .bar {
+    .bar-chart { display: flex; align-items: flex-end; gap: 7px; height: 64px; }
+    .bc-bar {
       flex: 1;
-      border-radius: 4px 4px 0 0;
-      background: linear-gradient(180deg, var(--gold) 0%, rgba(212, 175, 55, 0.3) 100%);
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, var(--gold) 0%, rgba(212,175,55,0.2) 100%);
       transition: opacity 0.2s;
+      position: relative;
     }
+    .bc-bar:hover { opacity: 0.7; }
+    .bc-bar.dim { background: linear-gradient(180deg, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0.06) 100%); }
+    .bar-labels { display: flex; gap: 7px; margin-top: 5px; }
+    .bar-labels span { flex: 1; text-align: center; font-size: 0.5rem; color: var(--text-muted); }
 
-    .bar:hover {
-      opacity: 0.8;
-    }
-
-    .bar.dim {
-      background: linear-gradient(180deg, rgba(212, 175, 55, 0.35) 0%, rgba(212, 175, 55, 0.1) 100%);
-    }
-
-    .bar-months {
-      display: flex;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .bar-month {
-      flex: 1;
-      text-align: center;
-      font-size: 0.55rem;
-      color: var(--text-muted);
-    }
-
-    .dash-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .dash-list-item {
+    /* Dash room list */
+    .dash-rooms { display: flex; flex-direction: column; gap: 7px; }
+    .dr-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--navy-light);
-      padding: 10px 14px;
+      background: var(--navy-3);
+      padding: 9px 12px;
       border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      transition: var(--t);
     }
+    .dr-item:hover { border-color: var(--gold-border); }
+    .dr-left { display: flex; align-items: center; gap: 8px; font-size: 0.68rem; color: var(--text-soft); }
+    .dr-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #34C759; box-shadow: 0 0 6px #34C759; }
+    .dot-blue  { background: #0A84FF; box-shadow: 0 0 6px #0A84FF; }
+    .dot-amber { background: #FF9F0A; box-shadow: 0 0 6px #FF9F0A; }
+    .dr-badge { font-size: 0.6rem; font-weight: 600; padding: 3px 8px; border-radius: 100px; }
+    .badge-ok   { background: rgba(52,199,89,0.12); color: #34C759; }
+    .badge-res  { background: rgba(10,132,255,0.12); color: #0A84FF; }
+    .badge-out  { background: rgba(255,159,10,0.12); color: #FF9F0A; }
 
-    .dash-list-name {
-      font-size: 0.72rem;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .room-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .green {
-      background: #4CAF50;
-    }
-
-    .blue {
-      background: #2196F3;
-    }
-
-    .amber {
-      background: #FFC107;
-    }
-
-    .dash-list-status {
-      font-size: 0.65rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 50px;
-    }
-
-    .status-ok {
-      background: rgba(76, 175, 80, 0.15);
-      color: #4CAF50;
-    }
-
-    .status-warn {
-      background: rgba(255, 193, 7, 0.15);
-      color: #FFC107;
-    }
-
-    .status-blue {
-      background: rgba(33, 150, 243, 0.15);
-      color: #2196F3;
-    }
-
-    /* ===== TRUSTED BY ===== */
+    /* ─── TRUSTED BY ─── */
     .trusted {
-      padding: 48px 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(15, 37, 64, 0.4);
+      padding: 52px 28px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--navy-1) 0%, var(--navy) 100%);
+      overflow: hidden;
     }
-
-    .trusted-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
     .trusted-label {
       text-align: center;
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: var(--text-muted);
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
 
-    .logo-row {
+    /* Marquee scrolling logos */
+    .logo-marquee { position: relative; overflow: hidden; }
+    .logo-marquee::before,
+    .logo-marquee::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .logo-marquee::before { left: 0; background: linear-gradient(90deg, var(--navy-1), transparent); }
+    .logo-marquee::after  { right: 0; background: linear-gradient(270deg, var(--navy-1), transparent); }
+
+    .logo-track {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
+      gap: 20px;
+      width: max-content;
+      animation: marquee 28s linear infinite;
     }
+    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    .logo-track:hover { animation-play-state: paused; }
 
-    .logo-box {
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 10px;
-      padding: 16px 28px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
+    .logo-chip {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 14px 28px;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1rem;
+      font-weight: 600;
       color: var(--text-muted);
-      letter-spacing: 0.05em;
-      transition: var(--transition);
-      min-width: 140px;
-      text-align: center;
+      white-space: nowrap;
+      transition: var(--t);
+      flex-shrink: 0;
     }
+    .logo-chip:hover { border-color: var(--gold-border); color: var(--gold); transform: translateY(-2px); }
 
-    .logo-box:hover {
-      border-color: var(--gold-border);
-      color: var(--gold);
-      transform: translateY(-3px);
-    }
-
-    /* ===== FEATURES ===== */
-    .features {
-      padding: 100px 24px;
-    }
-
-    .features-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* ─── FEATURES ─── */
+    .features { background: var(--navy); }
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 20px;
     }
-
     .feat-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      transition: var(--transition);
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 32px 26px;
+      transition: var(--t);
       position: relative;
       overflow: hidden;
+      cursor: default;
     }
-
+    /* shimmer top border on hover */
     .feat-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
+      top: 0; left: -100%; right: -100%;
+      height: 1.5px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       opacity: 0;
-      transition: opacity 0.35s ease;
+      transition: opacity 0.4s, left 0.6s;
     }
+    .feat-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.35), 0 0 40px rgba(212,175,55,0.06); }
+    .feat-card:hover::before { opacity: 1; left: 0; }
 
-    .feat-card:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), var(--shadow-gold);
+    /* Subtle glow in card corner */
+    .feat-card::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 100px; height: 100px;
+      background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.4s;
     }
-
-    .feat-card:hover::before {
-      opacity: 1;
-    }
+    .feat-card:hover::after { opacity: 1; }
 
     .feat-icon {
-      width: 52px;
-      height: 52px;
+      width: 50px; height: 50px;
       background: var(--gold-dim);
       border: 1px solid var(--gold-border);
-      border-radius: 12px;
+      border-radius: var(--r-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       margin-bottom: 20px;
+      transition: var(--t);
     }
+    .feat-card:hover .feat-icon { background: rgba(212,175,55,0.2); transform: scale(1.08); }
+    .feat-h { font-size: 1rem; font-weight: 600; color: var(--text-bright); margin-bottom: 10px; }
+    .feat-p { font-size: 0.86rem; color: var(--text-soft); line-height: 1.7; }
 
-    .feat-card h3 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 10px;
-    }
-
-    .feat-card p {
-      font-size: 0.88rem;
-      color: var(--text-light);
-    }
-
-    /* ===== SOLUTIONS ===== */
-    .solutions {
-      padding: 100px 24px;
-      background: rgba(15, 37, 64, 0.3);
-    }
-
-    .solutions-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* ─── SOLUTIONS ─── */
+    .solutions { background: var(--navy-1); }
     .solutions-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 0;
-    }
-
-    .sol-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 40px 32px;
-      transition: var(--transition);
-      position: relative;
-    }
-
-    .sol-card:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-6px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-    }
-
-    .sol-emoji {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
-    }
-
-    .sol-card h3 {
-      font-size: 1.25rem;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-
-    .sol-card p {
-      font-size: 0.88rem;
-      color: var(--text-light);
-      margin-bottom: 24px;
-    }
-
-    .sol-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .sol-list li {
-      font-size: 0.85rem;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .sol-list li::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .sol-card.featured {
-      border-color: var(--gold-border);
-      background: linear-gradient(135deg, #0F2540 0%, #1A3050 100%);
-    }
-
-    .sol-card.featured::before {
-      content: 'MOST POPULAR';
-      position: absolute;
-      top: -1px;
-      right: 28px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: #0B1C2D;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 5px 14px;
-      border-radius: 0 0 8px 8px;
-    }
-
-    /* ===== DASHBOARD PREVIEW ===== */
-    .preview {
-      padding: 100px 24px;
-    }
-
-    .preview-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .preview-dash {
-      background: var(--navy-card);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), var(--shadow-gold);
-      margin-top: 56px;
-    }
-
-    .preview-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
-    }
-
-    .preview-header h3 {
-      font-size: 1.1rem;
-      color: var(--white);
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-    }
-
-    .preview-tabs {
-      display: flex;
-      gap: 4px;
-      background: var(--navy-light);
-      padding: 4px;
-      border-radius: 8px;
-    }
-
-    .prev-tab {
-      font-size: 0.75rem;
-      padding: 6px 14px;
-      border-radius: 6px;
-      color: var(--text-muted);
-      cursor: default;
-      font-weight: 500;
-    }
-
-    .prev-tab.active {
-      background: var(--gold);
-      color: #0B1C2D;
-      font-weight: 600;
-    }
-
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      margin-bottom: 28px;
     }
-
-    .kpi-card {
-      background: var(--navy-light);
-      border-radius: var(--radius);
-      padding: 22px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    .sol-card {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 36px 28px;
+      transition: var(--t);
       position: relative;
       overflow: hidden;
     }
+    .sol-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .sol-card:hover { border-color: rgba(212,175,55,0.22); transform: translateY(-6px); box-shadow: 0 28px 70px rgba(0,0,0,0.4); }
+    .sol-card:hover::before { opacity: 1; }
 
+    .sol-card.featured {
+      border-color: var(--gold-border);
+      background: linear-gradient(160deg, var(--navy-3) 0%, var(--navy-2) 100%);
+      box-shadow: 0 0 50px rgba(212,175,55,0.08);
+    }
+    .sol-popular {
+      position: absolute;
+      top: -1px; right: 24px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #080E17;
+      border-radius: 0 0 8px 8px;
+    }
+    .sol-emoji { font-size: 2.5rem; margin-bottom: 18px; display: block; }
+    .sol-h { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--text-bright); margin-bottom: 12px; }
+    .sol-p { font-size: 0.86rem; color: var(--text-soft); margin-bottom: 22px; line-height: 1.7; }
+    .sol-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .sol-list li {
+      font-size: 0.84rem;
+      color: var(--text-soft);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .sol-list li::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* ─── DASHBOARD PREVIEW ─── */
+    .preview { background: var(--navy); }
+    .preview-ui {
+      background: var(--navy-2);
+      border: 1px solid rgba(212,175,55,0.16);
+      border-radius: var(--r-xl);
+      padding: 28px;
+      box-shadow: 0 60px 120px rgba(0,0,0,0.5), 0 0 80px rgba(212,175,55,0.04);
+      margin-top: 56px;
+    }
+    .pui-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .pui-title { font-size: 1rem; font-weight: 600; color: var(--text-bright); }
+    .pui-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .pui-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--navy-3);
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .pui-tab {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--t);
+    }
+    .pui-tab.active { background: var(--gold); color: #080E17; }
+    .pui-tab:not(.active):hover { background: var(--border); color: var(--text-soft); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--navy-3);
+      border-radius: var(--r-sm);
+      padding: 20px 18px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: var(--t);
+    }
+    .kpi-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-3px); }
     .kpi-card::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
+      top: 0; left: 0; right: 0;
+      height: 1.5px;
       background: linear-gradient(90deg, var(--gold), transparent);
     }
+    .kpi-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; color: var(--text-bright); line-height: 1; }
+    .kpi-chg { font-size: 0.68rem; margin-top: 5px; }
 
-    .kpi-label {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-
-    .kpi-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .kpi-change {
-      font-size: 0.72rem;
-      margin-top: 4px;
-    }
-
-    .kpi-change.up {
-      color: #4CAF50;
-    }
-
-    .kpi-change.dn {
-      color: #f44336;
-    }
-
-    .preview-bottom {
+    .preview-body {
       display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 16px;
     }
-
-    .chart-big {
-      background: var(--navy-light);
-      border-radius: var(--radius);
+    .pb-chart {
+      background: var(--navy-3);
+      border-radius: var(--r-sm);
       padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
     }
-
-    .chart-big-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .chart-big-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-light);
-    }
-
-    .bar-chart-big {
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      height: 120px;
-    }
-
-    .bar-big {
+    .pbc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .pbc-label { font-size: 0.82rem; font-weight: 600; color: var(--text-soft); }
+    .bar-chart-lg { display: flex; align-items: flex-end; gap: 8px; height: 110px; }
+    .bcl-bar {
       flex: 1;
-      border-radius: 5px 5px 0 0;
-      background: linear-gradient(180deg, var(--gold) 0%, rgba(212, 175, 55, 0.25) 100%);
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(180deg, var(--gold) 0%, rgba(212,175,55,0.18) 100%);
+      transition: opacity 0.2s, transform 0.2s;
     }
+    .bcl-bar:hover { opacity: 0.75; transform: scaleY(1.02); transform-origin: bottom; }
+    .bcl-bar.b { background: linear-gradient(180deg, #0A84FF 0%, rgba(10,132,255,0.15) 100%); }
+    .month-row { display: flex; gap: 8px; margin-top: 8px; }
+    .month-row span { flex: 1; text-align: center; font-size: 0.58rem; color: var(--text-muted); }
+    .chart-legend { display: flex; gap: 18px; margin-top: 14px; }
+    .cl-item { display: flex; align-items: center; gap: 6px; font-size: 0.68rem; color: var(--text-muted); }
+    .cl-dot { width: 10px; height: 3px; border-radius: 2px; }
 
-    .bar-big.sec {
-      background: linear-gradient(180deg, #2196F3 0%, rgba(33, 150, 243, 0.2) 100%);
-    }
-
-    .month-labels {
-      display: flex;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    .month-labels span {
-      flex: 1;
-      text-align: center;
-      font-size: 0.6rem;
-      color: var(--text-muted);
-    }
-
-    .recent-list-wrap {
-      background: var(--navy-light);
-      border-radius: var(--radius);
+    .pb-recent {
+      background: var(--navy-3);
+      border-radius: var(--r-sm);
       padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
     }
-
-    .rl-header {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-light);
-      margin-bottom: 16px;
-    }
-
-    .rl-item {
+    .pr-head { font-size: 0.82rem; font-weight: 600; color: var(--text-soft); margin-bottom: 16px; }
+    .pr-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      transition: var(--t);
     }
-
-    .rl-item:last-child {
-      border-bottom: none;
-    }
-
-    .rl-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .rl-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+    .pr-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .pr-item:hover { padding-left: 4px; }
+    .pr-left { display: flex; align-items: center; gap: 10px; }
+    .pr-av {
+      width: 30px; height: 30px;
+      border-radius: 7px;
       background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--gold);
+      flex-shrink: 0;
     }
+    .pr-name { font-size: 0.76rem; color: var(--text-bright); font-weight: 500; }
+    .pr-room { font-size: 0.62rem; color: var(--text-muted); }
+    .pr-amount { font-size: 0.76rem; font-weight: 700; color: var(--gold); }
 
-    .rl-name {
-      font-size: 0.78rem;
-      color: var(--white);
-      font-weight: 500;
-    }
-
-    .rl-room {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-    }
-
-    .rl-amount {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gold);
-    }
-
-    /* ===== PRICING ===== */
-    .pricing {
-      padding: 100px 24px;
-      background: rgba(15, 37, 64, 0.3);
-    }
-
-    .pricing-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* ─── PRICING ─── */
+    .pricing { background: var(--navy-1); }
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       align-items: start;
+      padding-top: 16px;
     }
-
     .price-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: var(--radius-lg);
-      padding: 40px 32px;
-      transition: var(--transition);
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 36px 30px;
+      transition: var(--t);
       position: relative;
     }
-
-    .price-card:hover {
-      transform: translateY(-6px);
+    .price-card:hover { transform: translateY(-6px); border-color: rgba(212,175,55,0.2); box-shadow: 0 30px 70px rgba(0,0,0,0.4); }
+    .price-card.highlighted {
+      border: 1.5px solid var(--gold-border);
+      background: linear-gradient(160deg, var(--navy-3) 0%, var(--navy-2) 100%);
+      box-shadow: 0 0 60px rgba(212,175,55,0.1);
+      transform: translateY(-14px);
     }
-
-    .price-card.highlight {
-      border: 2px solid var(--gold);
-      background: linear-gradient(160deg, #0F2540 0%, #1A3050 100%);
-      box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
-      transform: translateY(-12px);
-    }
-
-    .price-card.highlight:hover {
-      transform: translateY(-18px);
-    }
-
+    .price-card.highlighted:hover { transform: translateY(-20px); }
     .price-badge {
       position: absolute;
-      top: -16px;
+      top: -14px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: #0B1C2D;
-      font-size: 0.68rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #080E17;
+      font-size: 0.64rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 6px 18px;
-      border-radius: 50px;
+      letter-spacing: 0.14em;
+      padding: 5px 16px;
+      border-radius: 100px;
       white-space: nowrap;
     }
-
     .price-tier {
-      font-size: 0.78rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
-
-    .price-val {
-      display: flex;
-      align-items: flex-start;
-      gap: 4px;
-      margin-bottom: 6px;
-    }
-
-    .price-cur {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--gold);
-      margin-top: 10px;
-    }
-
+    .price-amount { display: flex; align-items: flex-start; gap: 3px; margin-bottom: 8px; }
+    .price-currency { font-size: 1rem; font-weight: 600; color: var(--gold); margin-top: 10px; }
     .price-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--text-bright);
       line-height: 1;
     }
-
-    .price-period {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      align-self: flex-end;
-      margin-bottom: 8px;
-    }
-
+    .price-period { font-size: 0.78rem; color: var(--text-muted); align-self: flex-end; margin-bottom: 6px; }
     .price-desc {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
-      margin-bottom: 28px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 26px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.65;
     }
+    .price-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+    .price-list li { font-size: 0.84rem; color: var(--text-soft); display: flex; align-items: center; gap: 9px; }
+    .price-check { color: var(--gold); font-size: 0.85rem; }
 
-    .price-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
-    }
-
-    .price-features li {
-      font-size: 0.87rem;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chk {
-      color: var(--gold);
-      font-size: 0.9rem;
-    }
-
-    .price-card .btn {
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* ===== TESTIMONIALS ===== */
-    .testimonials {
-      padding: 100px 24px;
-    }
-
-    .testimonials-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--navy); }
     .testi-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 20px;
     }
-
     .testi-card {
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      transition: var(--transition);
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 30px 26px;
+      transition: var(--t);
       position: relative;
     }
-
-    .testi-card:hover {
-      border-color: var(--gold-border);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .testi-quote {
-      font-size: 2.5rem;
+    .testi-card:hover { border-color: rgba(212,175,55,0.2); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+    .testi-quote-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
       color: var(--gold);
+      opacity: 0.4;
       line-height: 1;
-      margin-bottom: 16px;
-      opacity: 0.6;
-      font-family: serif;
+      margin-bottom: 12px;
     }
-
+    .testi-stars { color: var(--gold); font-size: 0.76rem; letter-spacing: 3px; margin-bottom: 14px; }
     .testi-text {
-      font-size: 0.9rem;
-      color: var(--text-light);
+      font-size: 0.88rem;
+      color: var(--text-soft);
       font-style: italic;
-      margin-bottom: 24px;
-      line-height: 1.8;
+      line-height: 1.75;
+      margin-bottom: 22px;
     }
-
-    .testi-author {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .author-avatar {
-      width: 46px;
-      height: 46px;
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-av {
+      width: 44px; height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      color: #0B1C2D;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      color: #080E17;
+      flex-shrink: 0;
     }
+    .testi-name { font-size: 0.88rem; font-weight: 600; color: var(--text-bright); }
+    .testi-role { font-size: 0.72rem; color: var(--text-muted); }
 
-    .author-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--white);
-    }
-
-    .author-role {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .stars {
-      color: var(--gold);
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      margin-bottom: 6px;
-    }
-
-    /* ===== CTA ===== */
+    /* ─── CTA ─── */
     .cta-section {
-      padding: 100px 24px;
-      background: linear-gradient(135deg, #0F2540 0%, #1A3050 50%, #0F2540 100%);
+      padding: 110px 28px;
+      background:
+        linear-gradient(135deg, var(--navy-2) 0%, var(--navy-3) 50%, var(--navy-2) 100%);
       border-top: 1px solid var(--gold-border);
       border-bottom: 1px solid var(--gold-border);
+      text-align: center;
       position: relative;
       overflow: hidden;
-      text-align: center;
     }
-
     .cta-section::before {
       content: '';
       position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 65%);
-      pointer-events: none;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 60%);
+      border-radius: 50%;
+      animation: glowPulse 4s ease-in-out infinite;
     }
+    .cta-section .container { position: relative; z-index: 1; }
+    .cta-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: var(--text-bright); margin-bottom: 18px; max-width: 620px; margin-left: auto; margin-right: auto; }
+    .cta-p { font-size: 1rem; color: var(--text-soft); max-width: 480px; margin: 0 auto 40px; }
+    .cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
-    .cta-section h2 {
-      color: var(--white);
-      margin-bottom: 18px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-section p {
-      max-width: 500px;
-      margin: 0 auto 40px;
-      font-size: 1rem;
-    }
-
-    .cta-btns {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    /* ===== FOOTER ===== */
+    /* ─── FOOTER ─── */
     .footer {
-      padding: 72px 24px 40px;
-      background: #070F1A;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 80px 28px 44px;
+      background: #040A11;
+      border-top: 1px solid var(--border);
     }
-
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    .footer-inner { max-width: 1220px; margin: 0 auto; }
     .footer-grid {
       display: grid;
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 56px;
+      gap: 52px;
+      margin-bottom: 60px;
     }
-
-    .footer-brand .logo {
-      font-size: 1.5rem;
-      display: block;
-      margin-bottom: 14px;
+    .footer-brand .logo { font-size: 1.5rem; display: block; margin-bottom: 16px; }
+    .footer-brand p { font-size: 0.84rem; color: var(--text-muted); max-width: 240px; line-height: 1.75; margin-bottom: 24px; }
+    .wa-footer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25D366;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: var(--r-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 22px;
+      transition: var(--t);
     }
-
-    .footer-brand p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      max-width: 260px;
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 12px;
-    }
-
-    .social-link {
-      width: 38px;
-      height: 38px;
-      background: var(--navy-card);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .wa-footer-btn:hover { background: #1ebe5d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.3); }
+    .socials { display: flex; gap: 10px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      background: var(--navy-2);
+      border: 1px solid var(--border);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      transition: var(--transition);
+      transition: var(--t);
     }
+    .social-btn:hover { border-color: var(--gold-border); color: var(--gold); transform: translateY(-2px); }
 
-    .social-link:hover {
-      border-color: var(--gold-border);
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    .footer-col h4 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.88rem;
+    .footer-col-h {
+      font-size: 0.8rem;
       font-weight: 700;
-      color: var(--white);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-bright);
       margin-bottom: 20px;
-      letter-spacing: 0.05em;
     }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-links a {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--gold);
-      padding-left: 4px;
-    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 0.84rem; color: var(--text-muted); transition: var(--t); display: flex; align-items: center; gap: 0; }
+    .footer-links a:hover { color: var(--gold); transform: translateX(4px); }
 
     .footer-bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-top: 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid var(--border);
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
     }
+    .footer-bottom p { font-size: 0.78rem; color: var(--text-muted); }
+    .footer-legal { display: flex; gap: 22px; }
+    .footer-legal a { font-size: 0.78rem; color: var(--text-muted); transition: var(--t); }
+    .footer-legal a:hover { color: var(--gold); }
 
-    .footer-bottom p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .footer-legal {
-      display: flex;
-      gap: 24px;
-    }
-
-    .footer-legal a {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      transition: var(--transition);
-    }
-
-    .footer-legal a:hover {
-      color: var(--gold);
-    }
-
-    /* ===== WHATSAPP FLOATING BUTTON ===== */
+    /* ─── WA FLOAT ─── */
     .wa-float {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      bottom: 28px; right: 28px;
       z-index: 9999;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background: #25D366;
       color: #fff;
-      padding: 14px 22px 14px 18px;
-      border-radius: 50px;
-      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.4);
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.88rem;
+      padding: 13px 20px 13px 16px;
+      border-radius: 100px;
+      font-size: 0.85rem;
       font-weight: 600;
-      transition: var(--transition);
+      font-family: 'DM Sans', sans-serif;
       text-decoration: none;
+      box-shadow: 0 8px 32px rgba(37,211,102,0.38);
+      transition: var(--t);
+      animation: waPulse 2.5s ease-in-out infinite;
     }
-
     .wa-float:hover {
       background: #1ebe5d;
       transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 16px 40px rgba(37, 211, 102, 0.5);
+      box-shadow: 0 16px 48px rgba(37,211,102,0.52);
+      animation: none;
     }
-
-    .wa-icon {
-      width: 28px;
-      height: 28px;
-      flex-shrink: 0;
-    }
-
-    .wa-pulse {
+    .wa-float svg { flex-shrink: 0; }
+    .wa-dot {
       position: absolute;
-      top: -4px;
-      right: -4px;
-      width: 14px;
-      height: 14px;
-      background: #ff4444;
+      top: -3px; right: -3px;
+      width: 11px; height: 11px;
+      background: #FF3B30;
       border-radius: 50%;
-      border: 2px solid #0B1C2D;
-      animation: wapulse 2s infinite;
+      border: 2px solid #080E17;
+      animation: pulseDot 1.5s infinite;
     }
 
-    @keyframes wapulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      50% {
-        transform: scale(1.3);
-        opacity: 0.7;
-      }
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .hero-inner        { gap: 52px; }
+      .features-grid     { grid-template-columns: repeat(2, 1fr); }
+      .solutions-grid    { grid-template-columns: repeat(2, 1fr); }
+      .kpi-grid          { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid       { grid-template-columns: 1fr 1fr; gap: 36px; }
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1024px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-
-      .hero-visual {
-        display: none;
-      }
-
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .solutions-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .kpi-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 32px;
-      }
-
-      .pricing-grid {
-        grid-template-columns: 1fr;
-        max-width: 440px;
-        margin: 0 auto;
-      }
-
-      .price-card.highlight {
-        transform: none;
-      }
-
-      .price-card.highlight:hover {
-        transform: translateY(-6px);
-      }
-
-      .preview-bottom {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 960px) {
+      .hero-inner        { grid-template-columns: 1fr; }
+      .hero-visual       { display: none; }
+      .pricing-grid      { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .price-card.highlighted { transform: none; }
+      .price-card.highlighted:hover { transform: translateY(-6px); }
+      .preview-body      { grid-template-columns: 1fr; }
+      .testi-grid        { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
     }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding: 60px 20px;
-        min-height: auto;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .solutions-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .testi-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .kpi-row {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .hero-stats {
-        gap: 20px;
-      }
-
-      .logo-row {
-        gap: 16px;
-      }
-
-      .logo-box {
-        min-width: 110px;
-        padding: 12px 16px;
-      }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .section-pad   { padding: 72px 0; }
+      .section-pad-sm{ padding: 48px 0; }
+      .hero { padding: 90px 20px 64px; }
+      .hero-h1 { font-size: 2.2rem; }
+      .hero-stats { gap: 22px; }
+      .features-grid  { grid-template-columns: 1fr; }
+      .solutions-grid { grid-template-columns: 1fr; }
+      .kpi-grid       { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid    { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom  { flex-direction: column; align-items: flex-start; }
+      .s-title        { font-size: 1.8rem; }
+      .s-sub          { font-size: 0.92rem; }
+      .wa-float span  { display: none; }
+      .wa-float       { padding: 14px; border-radius: 50%; }
     }
 
-    @media (max-width: 480px) {
-
-      .container,
-      .hero,
-      .features,
-      .solutions,
-      .testimonials,
-      .pricing,
-      .preview,
-      .cta-section {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      .kpi-row {
-        grid-template-columns: 1fr;
-      }
-
-      .dash-stats-row {
-        grid-template-columns: 1fr 1fr;
-      }
+    @media (max-width: 520px) {
+      .container, .hero, .cta-section { padding-left: 16px; padding-right: 16px; }
+      .kpi-grid       { grid-template-columns: 1fr; }
+      .hero-h1        { font-size: 1.9rem; }
+      .hero-stats     { flex-wrap: wrap; gap: 18px; }
+      .hero-btns      { flex-direction: column; }
+      .hero-btns .btn { width: 100%; justify-content: center; }
+      .cta-btns       { flex-direction: column; align-items: center; }
+      .cta-btns .btn  { width: 100%; max-width: 320px; }
+      .footer         { padding: 60px 16px 32px; }
+      .footer-legal   { flex-wrap: wrap; gap: 12px; }
+      .pui-tabs       { display: none; }
     }
-    .nav-links li {
-  position: relative;
-  list-style: none;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  min-width: 180px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  border-radius: 8px;
-  padding: 10px 0;
-  display: none;
-  z-index: 1000;
-}
-
-.dropdown-menu li {
-  padding: 0;
-}
-
-.dropdown-menu li a {
-  display: block;
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.dropdown-menu li a:hover {
-  background: #f5f5f5;
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
   </style>
 </head>
-
 <body>
 
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <div class="logo">BALI<span>HOS</span></div>
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <div class="logo">BALI<span>HOS</span></div>
 
-      <ul class="nav-links">
-        <li class="dropdown">
-          <a href="#home">Home ▾</a>
-          <ul class="dropdown-menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="landing2.html">sample1</a></li>
-            <li><a href="index4.html">sample2</a></li>
-            <li><a href="https://app.balihos.my.id/">Start Trial</a></li>
-          </ul>
-        </li>
+    <ul class="nav-links">
+      <li class="has-dropdown">
+        <a href="#home">Home</a>
+        <ul class="nav-dropdown">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="landing2.html">Sample 1</a></li>
+          <li><a href="index4.html">Sample 2</a></li>
+          <li><a href="https://app.balihos.my.id/">Start Trial</a></li>
+        </ul>
+      </li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#solutions">Solutions</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#clients">Clients</a></li>
+      <li><a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut." target="_blank">Contact</a></li>
+    </ul>
 
-        <li><a href="#features">Features</a></li>
-        <li><a href="#solutions">Solutions</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#clients">Clients</a></li>
-        <li>
-          <a
-            href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut%20dan%20request%20demo.">
-            Contact
-          </a>
-        </li>
-      </ul>
-
-      <div class="nav-cta">
-        <a href="#pricing" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="https://app.balihos.my.id/" class="btn btn-gold btn-sm">Start Trial</a>
-      </div>
+    <div class="nav-cta">
+      <a href="https://app.balihos.my.id/" class="btn btn-ghost btn-sm">Sign In</a>
+      <a href="https://app.balihos.my.id/" class="btn btn-gold btn-sm">Start Trial →</a>
     </div>
-  </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav Drawer -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#features" onclick="closeMobile()">Features</a>
+  <a href="#solutions" onclick="closeMobile()">Solutions</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#clients" onclick="closeMobile()">Clients</a>
+  <a href="https://wa.me/6282229771959" target="_blank" onclick="closeMobile()">Contact (WhatsApp)</a>
+  <div class="mobile-nav-btns">
+    <a href="https://app.balihos.my.id/" class="btn btn-ghost">Sign In</a>
+    <a href="https://app.balihos.my.id/" class="btn btn-gold">Start Trial →</a>
+  </div>
+</div>
 
 
-  <!-- ===== HERO ===== -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-content">
-        <div class="hero-badge">✦ All-in-One Property Management Platform</div>
-        <h1 class="hero-title">
-          The Smarter Way to Manage Your<br>
-          <em>Hotel & Villa</em> Business
-        </h1>
-        <p class="hero-sub">
-          BaliHos centralizes your bookings, operations, staff, and revenue analytics in one powerful dashboard —
-          designed for modern property managers who demand excellence.
-        </p>
-        <div class="hero-btns">
-          <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut%20dan%20request%20demo."
-            class="btn btn-gold">✦ Try Demo Free</a>
-          <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut%20dan%20request%20demo."
-            class="btn btn-outline">Contact Us →</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-num">2,500+</div>
-            <div class="stat-label">Properties Managed</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">98%</div>
-            <div class="stat-label">Client Retention</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num">40%</div>
-            <div class="stat-label">Revenue Increase</div>
-          </div>
-        </div>
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-inner">
+    <!-- Left: Content -->
+    <div class="hero-content">
+      <div class="hero-label">
+        <span class="hero-label-dot"></span>
+        All-in-One Property Management Platform
       </div>
-      <div class="hero-visual">
-        <div class="dash-wrap">
-          <div class="dash-topbar">
-            <div class="dash-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="dash-title">BaliHos Dashboard — Overview</div>
-            <div class="dash-icon"></div>
-          </div>
-          <div class="dash-stats-row">
-            <div class="mini-stat">
-              <div class="mini-stat-label">Revenue</div>
-              <div class="mini-stat-val">$84.2K</div>
-              <div class="mini-stat-change">↑ 18.4% this month</div>
-            </div>
-            <div class="mini-stat">
-              <div class="mini-stat-label">Bookings</div>
-              <div class="mini-stat-val">342</div>
-              <div class="mini-stat-change">↑ 9.2% vs last</div>
-            </div>
-            <div class="mini-stat">
-              <div class="mini-stat-label">Occupancy</div>
-              <div class="mini-stat-val">87%</div>
-              <div class="mini-stat-change down">↓ 2% from peak</div>
-            </div>
-          </div>
-          <div class="dash-chart-area">
-            <div class="chart-header">
-              <span class="chart-label">Monthly Revenue</span>
-              <span class="chart-badge">Last 6 months</span>
-            </div>
-            <div class="bar-chart">
-              <div class="bar dim" style="height:42%"></div>
-              <div class="bar dim" style="height:58%"></div>
-              <div class="bar dim" style="height:52%"></div>
-              <div class="bar" style="height:68%"></div>
-              <div class="bar" style="height:82%"></div>
-              <div class="bar" style="height:100%"></div>
-            </div>
-            <div class="bar-months">
-              <span>Jul</span><span>Aug</span><span>Sep</span>
-              <span>Oct</span><span>Nov</span><span>Dec</span>
-            </div>
-          </div>
-          <div class="dash-list">
-            <div class="dash-list-item">
-              <span class="dash-list-name"><span class="room-dot green"></span>Villa Sunset – Room 12</span>
-              <span class="dash-list-status status-ok">Occupied</span>
-            </div>
-            <div class="dash-list-item">
-              <span class="dash-list-name"><span class="room-dot blue"></span>Grand Suite – Room 05</span>
-              <span class="dash-list-status status-blue">Reserved</span>
-            </div>
-            <div class="dash-list-item">
-              <span class="dash-list-name"><span class="room-dot amber"></span>Ocean View – Room 07</span>
-              <span class="dash-list-status status-warn">Check-out</span>
-            </div>
-          </div>
+      <h1 class="hero-h1">
+        The Smarter Way<br>to Manage Your<br>
+        <em>Hotel & Villa</em> Business
+      </h1>
+      <p class="hero-p">
+        BaliHos centralizes your bookings, operations, staff, and revenue analytics in one powerful dashboard — designed for modern property managers who demand excellence.
+      </p>
+      <div class="hero-btns">
+        <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut%20dan%20request%20demo." target="_blank" class="btn btn-gold">
+          ✦ Try Demo Free
+        </a>
+        <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut." target="_blank" class="btn btn-ghost">
+          Contact Us →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2,500+</div>
+          <div class="stat-label">Properties Managed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Client Retention</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">40%</div>
+          <div class="stat-label">Revenue Increase</div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ===== TRUSTED BY ===== -->
-  <section class="trusted" id="clients">
-    <div class="trusted-inner">
-      <div class="trusted-label">Trusted by leading hospitality brands across Indonesia</div>
-      <div class="logo-row">
-        <div class="logo-box">Arjuna Hotels</div>
-        <div class="logo-box">Palm Resort</div>
-        <div class="logo-box">Bali Luxe</div>
-        <div class="logo-box">Nusantara Stay</div>
-        <div class="logo-box">Archipelago</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FEATURES ===== -->
-  <section class="features" id="features">
-    <div class="features-inner">
-      <div class="text-center">
-        <div class="section-label">✦ Platform Features</div>
-        <h2 class="section-title">Everything You Need to<br><span class="gold">Run Smarter Properties</span></h2>
-        <div class="gold-line"></div>
-        <p class="section-sub">From booking automation to financial intelligence, BaliHos gives your team the tools to
-          deliver exceptional guest experiences at scale.</p>
-      </div>
-      <div class="features-grid">
-        <div class="feat-card">
-          <div class="feat-icon">📅</div>
-          <h3>Smart Booking Management</h3>
-          <p>Automate reservations, handle cancellations, and sync your calendar across all OTA channels in real-time
-            without manual effort.</p>
+    <!-- Right: Dashboard Mockup -->
+    <div class="hero-visual">
+      <div class="dash-glow"></div>
+      <div class="dash-wrap">
+        <!-- Topbar -->
+        <div class="dash-bar">
+          <div class="dash-dots">
+            <span class="dd-r"></span><span class="dd-y"></span><span class="dd-g"></span>
+          </div>
+          <div class="dash-bar-title">BaliHos Dashboard · Live</div>
+          <div class="dash-bar-icon">⚙</div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">🏨</div>
-          <h3>Room & Villa Tracking</h3>
-          <p>Get a live overview of all your rooms and villas — availability, housekeeping status, maintenance needs,
-            and guest check-in history.</p>
+        <!-- KPI row -->
+        <div class="dash-kpis">
+          <div class="dash-kpi">
+            <div class="dk-label">Revenue</div>
+            <div class="dk-val">$84.2K</div>
+            <div class="dk-change up">↑ 18.4%</div>
+          </div>
+          <div class="dash-kpi">
+            <div class="dk-label">Bookings</div>
+            <div class="dk-val">342</div>
+            <div class="dk-change up">↑ 9.2%</div>
+          </div>
+          <div class="dash-kpi">
+            <div class="dk-label">Occupancy</div>
+            <div class="dk-val">87%</div>
+            <div class="dk-change dn">↓ 2%</div>
+          </div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">🗂️</div>
-          <h3>Multi-Property Dashboard</h3>
-          <p>Manage multiple hotels or villas from a single command center. Switch between properties instantly without
-            juggling tabs or logins.</p>
+        <!-- Chart -->
+        <div class="dash-chart">
+          <div class="dc-head">
+            <span class="dc-label">Monthly Revenue</span>
+            <span class="dc-badge">Last 6 mo</span>
+          </div>
+          <div class="bar-chart">
+            <div class="bc-bar dim" style="height:40%"></div>
+            <div class="bc-bar dim" style="height:55%"></div>
+            <div class="bc-bar dim" style="height:50%"></div>
+            <div class="bc-bar" style="height:68%"></div>
+            <div class="bc-bar" style="height:82%"></div>
+            <div class="bc-bar" style="height:100%"></div>
+          </div>
+          <div class="bar-labels">
+            <span>Jul</span><span>Aug</span><span>Sep</span>
+            <span>Oct</span><span>Nov</span><span>Dec</span>
+          </div>
         </div>
-        <div class="feat-card">
-          <div class="feat-icon">📊</div>
-          <h3>Financial Reports</h3>
-          <p>Generate P&L statements, occupancy revenue reports, and custom financial summaries with one click. Fully
-            exportable to Excel and PDF.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">👥</div>
-          <h3>Staff Management</h3>
-          <p>Assign roles, schedule shifts, track attendance, and monitor staff performance — all integrated within your
-            property workflow.</p>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔔</div>
-          <h3>Real-time Notifications</h3>
-          <p>Instant alerts for new bookings, cancellations, payment confirmations, and guest requests — delivered to
-            your team across devices.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== SOLUTIONS ===== -->
-  <section class="solutions" id="solutions">
-    <div class="solutions-inner">
-      <div class="text-center">
-        <div class="section-label">✦ Tailored Solutions</div>
-        <h2 class="section-title">Built for Every Type of<br><span class="gold">Property Business</span></h2>
-        <div class="gold-line"></div>
-        <p class="section-sub">Whether you operate a boutique hotel, luxury villa, or a large portfolio of properties,
-          BaliHos adapts to your unique operational needs.</p>
-      </div>
-      <div class="solutions-grid">
-        <div class="sol-card">
-          <div class="sol-emoji">🏨</div>
-          <h3>Untuk Hotel</h3>
-          <p>Solusi lengkap untuk manajemen hotel skala kecil hingga bintang lima dengan integrasi channel manager dan
-            PMS terpadu.</p>
-          <ul class="sol-list">
-            <li>Channel Manager (Booking.com, Airbnb, Expedia)</li>
-            <li>Front Office & Check-in Digital</li>
-            <li>Housekeeping Task Automation</li>
-            <li>Guest History & CRM</li>
-            <li>Rate Management & Yield Optimization</li>
-          </ul>
-        </div>
-        <div class="sol-card featured">
-          <div class="sol-emoji">🌴</div>
-          <h3>Untuk Villa</h3>
-          <p>Platform yang dirancang khusus untuk pengelolaan villa private, resort, dan akomodasi mewah dengan
-            kebutuhan layanan personal tinggi.</p>
-          <ul class="sol-list">
-            <li>Villa Owner Portal & Reporting</li>
-            <li>Guest Concierge Request System</li>
-            <li>Kontrak Sewa & Document Management</li>
-            <li>Inventory & Amenities Tracker</li>
-            <li>Revenue Share Automation</li>
-          </ul>
-        </div>
-        <div class="sol-card">
-          <div class="sol-emoji">🏢</div>
-          <h3>Untuk Property Group</h3>
-          <p>Infrastruktur enterprise untuk grup properti dengan multi-lokasi, multi-brand, dan tim manajemen yang
-            tersebar di berbagai wilayah.</p>
-          <ul class="sol-list">
-            <li>Centralized Multi-Property Control</li>
-            <li>Role-Based Access & Permission</li>
-            <li>Consolidated Financial Dashboard</li>
-            <li>Custom Branding & White Label</li>
-            <li>Dedicated Account Manager & SLA</li>
-          </ul>
+        <!-- Room list -->
+        <div class="dash-rooms">
+          <div class="dr-item">
+            <div class="dr-left"><div class="dr-dot dot-green"></div>Villa Sunset – Room 12</div>
+            <div class="dr-badge badge-ok">Occupied</div>
+          </div>
+          <div class="dr-item">
+            <div class="dr-left"><div class="dr-dot dot-blue"></div>Grand Suite – Room 05</div>
+            <div class="dr-badge badge-res">Reserved</div>
+          </div>
+          <div class="dr-item">
+            <div class="dr-left"><div class="dr-dot dot-amber"></div>Ocean View – Room 07</div>
+            <div class="dr-badge badge-out">Check-out</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===== DASHBOARD PREVIEW ===== -->
-  <section class="preview" id="dashboard">
-    <div class="preview-inner">
-      <div class="text-center">
-        <div class="section-label">✦ Live Dashboard</div>
-        <h2 class="section-title">Real-time Business Intelligence<br><span class="gold">at Your Fingertips</span></h2>
-        <div class="gold-line"></div>
-        <p class="section-sub">A command center that gives you instant visibility into revenue, bookings, occupancy, and
-          guest activity — beautifully designed and always actionable.</p>
+
+<!-- ═══════════════════════════════════════════
+     TRUSTED BY
+════════════════════════════════════════════ -->
+<section class="trusted section-pad-sm" id="clients">
+  <div class="trusted-label reveal">Trusted by leading hospitality brands across Indonesia</div>
+  <div class="logo-marquee">
+    <div class="logo-track">
+      <!-- duplicated for seamless loop -->
+      <div class="logo-chip">Arjuna Hotels</div>
+      <div class="logo-chip">Palm Resort</div>
+      <div class="logo-chip">Bali Luxe</div>
+      <div class="logo-chip">Nusantara Stay</div>
+      <div class="logo-chip">Archipelago</div>
+      <div class="logo-chip">Seminyak Suites</div>
+      <div class="logo-chip">The Umalas</div>
+      <div class="logo-chip">Jimbaran Villas</div>
+      <div class="logo-chip">Arjuna Hotels</div>
+      <div class="logo-chip">Palm Resort</div>
+      <div class="logo-chip">Bali Luxe</div>
+      <div class="logo-chip">Nusantara Stay</div>
+      <div class="logo-chip">Archipelago</div>
+      <div class="logo-chip">Seminyak Suites</div>
+      <div class="logo-chip">The Umalas</div>
+      <div class="logo-chip">Jimbaran Villas</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════ -->
+<section class="features section-pad" id="features">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="pill">✦ Platform Features</div>
+      <h2 class="s-title">Everything You Need to<br><span class="text-gold">Run Smarter Properties</span></h2>
+      <div class="divider"></div>
+      <p class="s-sub">From booking automation to financial intelligence, BaliHos gives your team the tools to deliver exceptional guest experiences at scale.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card reveal delay-1">
+        <div class="feat-icon">📅</div>
+        <div class="feat-h">Smart Booking Management</div>
+        <p class="feat-p">Automate reservations, handle cancellations, and sync your calendar across all OTA channels in real-time without manual effort.</p>
       </div>
-      <div class="preview-dash">
-        <div class="preview-header">
+      <div class="feat-card reveal delay-2">
+        <div class="feat-icon">🏨</div>
+        <div class="feat-h">Room & Villa Tracking</div>
+        <p class="feat-p">Get a live overview of all your rooms and villas — availability, housekeeping status, maintenance needs, and guest check-in history.</p>
+      </div>
+      <div class="feat-card reveal delay-3">
+        <div class="feat-icon">🗂️</div>
+        <div class="feat-h">Multi-Property Dashboard</div>
+        <p class="feat-p">Manage multiple hotels or villas from a single command center. Switch between properties instantly without juggling tabs or logins.</p>
+      </div>
+      <div class="feat-card reveal delay-1">
+        <div class="feat-icon">📊</div>
+        <div class="feat-h">Financial Reports</div>
+        <p class="feat-p">Generate P&L statements, occupancy revenue reports, and custom financial summaries with one click. Fully exportable to Excel and PDF.</p>
+      </div>
+      <div class="feat-card reveal delay-2">
+        <div class="feat-icon">👥</div>
+        <div class="feat-h">Staff Management</div>
+        <p class="feat-p">Assign roles, schedule shifts, track attendance, and monitor staff performance — all integrated within your property workflow.</p>
+      </div>
+      <div class="feat-card reveal delay-3">
+        <div class="feat-icon">🔔</div>
+        <div class="feat-h">Real-time Notifications</div>
+        <p class="feat-p">Instant alerts for new bookings, cancellations, payment confirmations, and guest requests — delivered to your team across devices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SOLUTIONS
+════════════════════════════════════════════ -->
+<section class="solutions section-pad" id="solutions">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="pill">✦ Tailored Solutions</div>
+      <h2 class="s-title">Built for Every Type of<br><span class="text-gold">Property Business</span></h2>
+      <div class="divider"></div>
+      <p class="s-sub">Whether you operate a boutique hotel, luxury villa, or a large portfolio, BaliHos adapts to your unique operational needs.</p>
+    </div>
+    <div class="solutions-grid">
+      <div class="sol-card reveal delay-1">
+        <span class="sol-emoji">🏨</span>
+        <div class="sol-h">Untuk Hotel</div>
+        <p class="sol-p">Solusi lengkap untuk manajemen hotel skala kecil hingga bintang lima dengan integrasi channel manager dan PMS terpadu.</p>
+        <ul class="sol-list">
+          <li>Channel Manager (Booking.com, Airbnb, Expedia)</li>
+          <li>Front Office & Check-in Digital</li>
+          <li>Housekeeping Task Automation</li>
+          <li>Guest History & CRM</li>
+          <li>Rate Management & Yield Optimization</li>
+        </ul>
+      </div>
+      <div class="sol-card featured reveal delay-2">
+        <div class="sol-popular">✦ Most Popular</div>
+        <span class="sol-emoji">🌴</span>
+        <div class="sol-h">Untuk Villa</div>
+        <p class="sol-p">Platform yang dirancang khusus untuk pengelolaan villa private, resort, dan akomodasi mewah dengan layanan personal tinggi.</p>
+        <ul class="sol-list">
+          <li>Villa Owner Portal & Reporting</li>
+          <li>Guest Concierge Request System</li>
+          <li>Kontrak Sewa & Document Management</li>
+          <li>Inventory & Amenities Tracker</li>
+          <li>Revenue Share Automation</li>
+        </ul>
+      </div>
+      <div class="sol-card reveal delay-3">
+        <span class="sol-emoji">🏢</span>
+        <div class="sol-h">Untuk Property Group</div>
+        <p class="sol-p">Infrastruktur enterprise untuk grup properti dengan multi-lokasi, multi-brand, dan tim manajemen tersebar di berbagai wilayah.</p>
+        <ul class="sol-list">
+          <li>Centralized Multi-Property Control</li>
+          <li>Role-Based Access & Permission</li>
+          <li>Consolidated Financial Dashboard</li>
+          <li>Custom Branding & White Label</li>
+          <li>Dedicated Account Manager & SLA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     DASHBOARD PREVIEW
+════════════════════════════════════════════ -->
+<section class="preview section-pad" id="dashboard">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="pill">✦ Live Dashboard</div>
+      <h2 class="s-title">Real-time Business Intelligence<br><span class="text-gold">at Your Fingertips</span></h2>
+      <div class="divider"></div>
+      <p class="s-sub">A command center giving you instant visibility into revenue, bookings, occupancy, and guest activity — beautifully designed and always actionable.</p>
+    </div>
+    <div class="preview-ui reveal">
+      <div class="pui-header">
+        <div>
+          <div class="pui-title">Property Intelligence Dashboard</div>
+          <div class="pui-sub">All Properties · December 2024 · Live</div>
+        </div>
+        <div class="pui-tabs">
+          <div class="pui-tab active">Overview</div>
+          <div class="pui-tab">Revenue</div>
+          <div class="pui-tab">Bookings</div>
+          <div class="pui-tab">Reports</div>
+        </div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-val">$248K</div>
+          <div class="kpi-chg up">↑ 22.4% vs last quarter</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Bookings</div>
+          <div class="kpi-val">1,842</div>
+          <div class="kpi-chg up">↑ 11.8% this month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Occupancy Rate</div>
+          <div class="kpi-val">87.4%</div>
+          <div class="kpi-chg dn">↓ 2.1% from peak season</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg. Stay Duration</div>
+          <div class="kpi-val">3.2d</div>
+          <div class="kpi-chg up">↑ 0.4 days avg increase</div>
+        </div>
+      </div>
+      <div class="preview-body">
+        <div class="pb-chart">
+          <div class="pbc-head">
+            <span class="pbc-label">Revenue vs Bookings (6 Months)</span>
+            <span class="dc-badge">Monthly View</span>
+          </div>
+          <div class="bar-chart-lg">
+            <div class="bcl-bar" style="height:45%"></div>
+            <div class="bcl-bar b" style="height:55%"></div>
+            <div class="bcl-bar" style="height:62%"></div>
+            <div class="bcl-bar b" style="height:52%"></div>
+            <div class="bcl-bar" style="height:75%"></div>
+            <div class="bcl-bar b" style="height:68%"></div>
+            <div class="bcl-bar" style="height:88%"></div>
+            <div class="bcl-bar b" style="height:80%"></div>
+            <div class="bcl-bar" style="height:92%"></div>
+            <div class="bcl-bar b" style="height:85%"></div>
+            <div class="bcl-bar" style="height:100%"></div>
+            <div class="bcl-bar b" style="height:95%"></div>
+          </div>
+          <div class="month-row">
+            <span>Jul</span><span></span>
+            <span>Aug</span><span></span>
+            <span>Sep</span><span></span>
+            <span>Oct</span><span></span>
+            <span>Nov</span><span></span>
+            <span>Dec</span><span></span>
+          </div>
+          <div class="chart-legend">
+            <div class="cl-item"><div class="cl-dot" style="background:var(--gold)"></div>Revenue</div>
+            <div class="cl-item"><div class="cl-dot" style="background:#0A84FF"></div>Bookings</div>
+          </div>
+        </div>
+        <div class="pb-recent">
+          <div class="pr-head">Recent Transactions</div>
+          <div class="pr-item">
+            <div class="pr-left"><div class="pr-av">AW</div><div><div class="pr-name">Arya Wijaya</div><div class="pr-room">Villa Sunset · 3 nights</div></div></div>
+            <div class="pr-amount">$840</div>
+          </div>
+          <div class="pr-item">
+            <div class="pr-left"><div class="pr-av">DL</div><div><div class="pr-name">Diana Lim</div><div class="pr-room">Grand Suite · 2 nights</div></div></div>
+            <div class="pr-amount">$560</div>
+          </div>
+          <div class="pr-item">
+            <div class="pr-left"><div class="pr-av">BP</div><div><div class="pr-name">Bintang Putra</div><div class="pr-room">Ocean View · 5 nights</div></div></div>
+            <div class="pr-amount">$1,250</div>
+          </div>
+          <div class="pr-item">
+            <div class="pr-left"><div class="pr-av">SR</div><div><div class="pr-name">Sarah Rahman</div><div class="pr-room">Deluxe King · 1 night</div></div></div>
+            <div class="pr-amount">$320</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════ -->
+<section class="pricing section-pad" id="pricing">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="pill">✦ Pricing Plans</div>
+      <h2 class="s-title">Transparent Pricing for<br><span class="text-gold">Every Property Scale</span></h2>
+      <div class="divider"></div>
+      <p class="s-sub">No hidden fees. No long-term lock-in. Cancel anytime. All plans include a 14-day free trial.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal delay-1">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">
+          <span class="price-currency">$</span>
+          <span class="price-num">49</span>
+          <span class="price-period">/month</span>
+        </div>
+        <div class="price-desc">Perfect for independent villas and small boutique hotels starting their digital journey.</div>
+        <ul class="price-list">
+          <li><span class="price-check">✦</span>Up to 2 Properties</li>
+          <li><span class="price-check">✦</span>500 Bookings/Month</li>
+          <li><span class="price-check">✦</span>Basic Dashboard & Reports</li>
+          <li><span class="price-check">✦</span>Channel Manager (3 OTAs)</li>
+          <li><span class="price-check">✦</span>Email Support</li>
+          <li><span class="price-check">✦</span>Mobile App Access</li>
+        </ul>
+        <a href="https://app.balihos.my.id/" class="btn btn-ghost btn-full">Get Started →</a>
+      </div>
+
+      <div class="price-card highlighted reveal delay-2">
+        <div class="price-badge">✦ Most Popular</div>
+        <div class="price-tier" style="color:var(--gold)">Professional</div>
+        <div class="price-amount">
+          <span class="price-currency">$</span>
+          <span class="price-num">149</span>
+          <span class="price-period">/month</span>
+        </div>
+        <div class="price-desc">Ideal for growing hotels and villa groups that need advanced tools and integrations.</div>
+        <ul class="price-list">
+          <li><span class="price-check">✦</span>Up to 10 Properties</li>
+          <li><span class="price-check">✦</span>Unlimited Bookings</li>
+          <li><span class="price-check">✦</span>Advanced Analytics & P&L</li>
+          <li><span class="price-check">✦</span>All OTA Channel Integrations</li>
+          <li><span class="price-check">✦</span>Staff Management Module</li>
+          <li><span class="price-check">✦</span>Priority Chat Support</li>
+          <li><span class="price-check">✦</span>Financial Reporting Suite</li>
+          <li><span class="price-check">✦</span>Guest CRM & History</li>
+        </ul>
+        <a href="https://app.balihos.my.id/" class="btn btn-gold btn-full">Get Started →</a>
+      </div>
+
+      <div class="price-card reveal delay-3">
+        <div class="price-tier">Enterprise</div>
+        <div class="price-amount">
+          <span class="price-num" style="font-size:2.4rem;">Custom</span>
+        </div>
+        <div class="price-desc">For large property groups, hotel chains, and resort operators with enterprise-scale requirements.</div>
+        <ul class="price-list">
+          <li><span class="price-check">✦</span>Unlimited Properties</li>
+          <li><span class="price-check">✦</span>White Label & Custom Branding</li>
+          <li><span class="price-check">✦</span>API Access & Custom Integrations</li>
+          <li><span class="price-check">✦</span>Dedicated Account Manager</li>
+          <li><span class="price-check">✦</span>SLA & Uptime Guarantee</li>
+          <li><span class="price-check">✦</span>On-site Training & Onboarding</li>
+          <li><span class="price-check">✦</span>Custom Report Builder</li>
+          <li><span class="price-check">✦</span>24/7 Phone & Priority Support</li>
+        </ul>
+        <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20tertarik%20dengan%20paket%20Enterprise." target="_blank" class="btn btn-ghost btn-full">Contact Sales →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════ -->
+<section class="testimonials section-pad">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="pill">✦ Client Stories</div>
+      <h2 class="s-title">Trusted by Hospitality<br><span class="text-gold">Professionals Across Indonesia</span></h2>
+      <div class="divider"></div>
+      <p class="s-sub">Real results from real property managers who've transformed their operations with BaliHos.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal delay-1">
+        <div class="testi-quote-icon">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">BaliHos completely transformed how we manage our 3 villa properties in Bali. Bookings are up 40%, and I can now run everything from my phone. The dashboard is simply brilliant.</p>
+        <div class="testi-author">
+          <div class="testi-av">IR</div>
           <div>
-            <h3>Property Intelligence Dashboard</h3>
-            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">All Properties · December 2024 · Live
-            </p>
-          </div>
-          <div class="preview-tabs">
-            <div class="prev-tab active">Overview</div>
-            <div class="prev-tab">Revenue</div>
-            <div class="prev-tab">Bookings</div>
-            <div class="prev-tab">Reports</div>
+            <div class="testi-name">Indira Rahayu</div>
+            <div class="testi-role">Owner, Bali Serenity Villas</div>
           </div>
         </div>
-        <div class="kpi-row">
-          <div class="kpi-card">
-            <div class="kpi-label">Total Revenue</div>
-            <div class="kpi-val">$248K</div>
-            <div class="kpi-change up">↑ 22.4% vs last quarter</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Total Bookings</div>
-            <div class="kpi-val">1,842</div>
-            <div class="kpi-change up">↑ 11.8% this month</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Occupancy Rate</div>
-            <div class="kpi-val">87.4%</div>
-            <div class="kpi-change dn">↓ 2.1% from peak season</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Avg. Stay Duration</div>
-            <div class="kpi-val">3.2d</div>
-            <div class="kpi-change up">↑ 0.4 days avg increase</div>
+      </div>
+      <div class="testi-card reveal delay-2">
+        <div class="testi-quote-icon">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">As a hotel group operating 8 properties across Java, we needed a system that could scale with us. BaliHos's multi-property dashboard and financial reports save us 30+ hours a month.</p>
+        <div class="testi-author">
+          <div class="testi-av">MH</div>
+          <div>
+            <div class="testi-name">Muhammad Hendra</div>
+            <div class="testi-role">COO, Nusantara Hospitality Group</div>
           </div>
         </div>
-        <div class="preview-bottom">
-          <div class="chart-big">
-            <div class="chart-big-header">
-              <span class="chart-big-label">Revenue vs Bookings (6 Months)</span>
-              <span class="chart-badge">Monthly View</span>
-            </div>
-            <div class="bar-chart-big">
-              <div class="bar-big" style="height:45%"></div>
-              <div class="bar-big sec" style="height:55%"></div>
-              <div class="bar-big" style="height:62%"></div>
-              <div class="bar-big sec" style="height:52%"></div>
-              <div class="bar-big" style="height:75%"></div>
-              <div class="bar-big sec" style="height:68%"></div>
-              <div class="bar-big" style="height:88%"></div>
-              <div class="bar-big sec" style="height:80%"></div>
-              <div class="bar-big" style="height:92%"></div>
-              <div class="bar-big sec" style="height:85%"></div>
-              <div class="bar-big" style="height:100%"></div>
-              <div class="bar-big sec" style="height:95%"></div>
-            </div>
-            <div class="month-labels">
-              <span>Jul</span><span></span>
-              <span>Aug</span><span></span>
-              <span>Sep</span><span></span>
-              <span>Oct</span><span></span>
-              <span>Nov</span><span></span>
-              <span>Dec</span><span></span>
-            </div>
-            <div style="display:flex; gap:20px; margin-top:14px;">
-              <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-muted);">
-                <span
-                  style="width:12px;height:4px;background:var(--gold);border-radius:2px;display:inline-block;"></span>
-                Revenue
-              </div>
-              <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-muted);">
-                <span style="width:12px;height:4px;background:#2196F3;border-radius:2px;display:inline-block;"></span>
-                Bookings
-              </div>
-            </div>
-          </div>
-          <div class="recent-list-wrap">
-            <div class="rl-header">Recent Transactions</div>
-            <div class="rl-item">
-              <div class="rl-left">
-                <div class="rl-avatar">AW</div>
-                <div>
-                  <div class="rl-name">Arya Wijaya</div>
-                  <div class="rl-room">Villa Sunset · 3 nights</div>
-                </div>
-              </div>
-              <div class="rl-amount">$840</div>
-            </div>
-            <div class="rl-item">
-              <div class="rl-left">
-                <div class="rl-avatar">DL</div>
-                <div>
-                  <div class="rl-name">Diana Lim</div>
-                  <div class="rl-room">Grand Suite · 2 nights</div>
-                </div>
-              </div>
-              <div class="rl-amount">$560</div>
-            </div>
-            <div class="rl-item">
-              <div class="rl-left">
-                <div class="rl-avatar">BP</div>
-                <div>
-                  <div class="rl-name">Bintang Putra</div>
-                  <div class="rl-room">Ocean View · 5 nights</div>
-                </div>
-              </div>
-              <div class="rl-amount">$1,250</div>
-            </div>
-            <div class="rl-item">
-              <div class="rl-left">
-                <div class="rl-avatar">SR</div>
-                <div>
-                  <div class="rl-name">Sarah Rahman</div>
-                  <div class="rl-room">Deluxe King · 1 night</div>
-                </div>
-              </div>
-              <div class="rl-amount">$320</div>
-            </div>
+      </div>
+      <div class="testi-card reveal delay-3">
+        <div class="testi-quote-icon">"</div>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The channel management feature alone was worth switching to BaliHos. We're now listed on 12 OTAs simultaneously with zero double-booking incidents. Exceptional product and team.</p>
+        <div class="testi-author">
+          <div class="testi-av">SW</div>
+          <div>
+            <div class="testi-name">Sita Widiastuti</div>
+            <div class="testi-role">GM, Palm Cove Resort Lombok</div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===== PRICING ===== -->
-  <section class="pricing" id="pricing">
-    <div class="pricing-inner">
-      <div class="text-center">
-        <div class="section-label">✦ Pricing Plans</div>
-        <h2 class="section-title">Transparent Pricing for<br><span class="gold">Every Property Scale</span></h2>
-        <div class="gold-line"></div>
-        <p class="section-sub">No hidden fees. No long-term lock-in. Cancel anytime. All plans include a 14-day free
-          trial.</p>
+
+<!-- ═══════════════════════════════════════════
+     CTA
+════════════════════════════════════════════ -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="pill reveal" style="margin:0 auto 20px;">✦ Get Started Today</div>
+    <h2 class="cta-h reveal">Ready to Digitize Your<br>Property Management?</h2>
+    <p class="cta-p reveal">Join 2,500+ property managers already running smarter operations with BaliHos. No setup fees. No long-term contracts.</p>
+    <div class="cta-btns reveal">
+      <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20schedule%20demo." target="_blank" class="btn btn-gold">✦ Schedule a Demo</a>
+      <a href="#pricing" class="btn btn-ghost">View Pricing →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">BALI<span>HOS</span></div>
+        <p>The all-in-one hotel and villa management platform built for modern hospitality professionals who demand efficiency, elegance, and intelligence.</p>
+        <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut." target="_blank" rel="noopener" class="wa-footer-btn">
+          <svg width="17" height="17" viewBox="0 0 32 32" fill="none"><path d="M16 5C10.477 5 6 9.477 6 15c0 1.882.516 3.642 1.414 5.156L6 26l5.992-1.398A9.946 9.946 0 0016 25c5.523 0 10-4.477 10-10S21.523 5 16 5z" fill="white"/><path d="M21.5 18.5c-.3-.15-1.767-.872-2.04-.97-.274-.1-.473-.15-.672.15-.2.3-.772.97-.946 1.17-.174.2-.347.22-.647.075-.3-.15-1.266-.466-2.41-1.485-.89-.795-1.49-1.776-1.665-2.076-.174-.3-.018-.462.13-.61.134-.134.3-.347.45-.52.15-.174.2-.3.3-.498.1-.2.05-.373-.025-.522-.075-.15-.672-1.62-.92-2.22-.243-.582-.49-.503-.673-.513-.174-.008-.373-.01-.572-.01-.2 0-.522.075-.795.373-.274.3-1.044 1.02-1.044 2.487 0 1.467 1.069 2.884 1.218 3.083.15.2 2.1 3.207 5.088 4.497.712.307 1.267.49 1.7.628.714.228 1.365.196 1.878.119.573-.085 1.766-.722 2.016-1.42.25-.697.25-1.294.175-1.42-.075-.125-.274-.2-.573-.347z" fill="#25D366"/></svg>
+          +62 822-2977-1959
+        </a>
+        <div class="socials">
+          <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+          <a href="#" class="social-btn" aria-label="Instagram">ig</a>
+          <a href="#" class="social-btn" aria-label="YouTube">yt</a>
+        </div>
       </div>
-      <div class="pricing-grid">
-        <div class="price-card">
-          <div class="price-tier">Starter</div>
-          <div class="price-val">
-            <span class="price-cur">$</span>
-            <span class="price-num">49</span>
-            <span class="price-period">/month</span>
-          </div>
-          <div class="price-desc">Perfect for independent villas and small boutique hotels starting their digital
-            journey.</div>
-          <ul class="price-features">
-            <li><span class="chk">✦</span> Up to 2 Properties</li>
-            <li><span class="chk">✦</span> 500 Bookings/Month</li>
-            <li><span class="chk">✦</span> Basic Dashboard & Reports</li>
-            <li><span class="chk">✦</span> Channel Manager (3 OTAs)</li>
-            <li><span class="chk">✦</span> Email Support</li>
-            <li><span class="chk">✦</span> Mobile App Access</li>
-          </ul>
-          <a href="https://app.balihos.my.id/" class="btn btn-outline">Get Started →</a>
-        </div>
-        <div class="price-card highlight">
-          <div class="price-badge">✦ Most Popular</div>
-          <div class="price-tier" style="color:var(--gold)">Professional</div>
-          <div class="price-val">
-            <span class="price-cur">$</span>
-            <span class="price-num">149</span>
-            <span class="price-period">/month</span>
-          </div>
-          <div class="price-desc">Ideal for growing hotels and villa groups that need advanced tools and integrations.
-          </div>
-          <ul class="price-features">
-            <li><span class="chk">✦</span> Up to 10 Properties</li>
-            <li><span class="chk">✦</span> Unlimited Bookings</li>
-            <li><span class="chk">✦</span> Advanced Analytics & P&L</li>
-            <li><span class="chk">✦</span> All OTA Channel Integrations</li>
-            <li><span class="chk">✦</span> Staff Management Module</li>
-            <li><span class="chk">✦</span> Priority Chat Support</li>
-            <li><span class="chk">✦</span> Financial Reporting Suite</li>
-            <li><span class="chk">✦</span> Guest CRM & History</li>
-          </ul>
-          <a href="https://app.balihos.my.id/" class="btn btn-gold">Get Started →</a>
-        </div>
-        <div class="price-card">
-          <div class="price-tier">Enterprise</div>
-          <div class="price-val">
-            <span class="price-cur"></span>
-            <span class="price-num" style="font-size:2.2rem;">Custom</span>
-          </div>
-          <div class="price-desc">For large property groups, hotel chains, and resort operators with enterprise-scale
-            requirements.</div>
-          <ul class="price-features">
-            <li><span class="chk">✦</span> Unlimited Properties</li>
-            <li><span class="chk">✦</span> White Label & Custom Branding</li>
-            <li><span class="chk">✦</span> API Access & Custom Integrations</li>
-            <li><span class="chk">✦</span> Dedicated Account Manager</li>
-            <li><span class="chk">✦</span> SLA & Uptime Guarantee</li>
-            <li><span class="chk">✦</span> On-site Training & Onboarding</li>
-            <li><span class="chk">✦</span> Custom Report Builder</li>
-            <li><span class="chk">✦</span> 24/7 Phone & Priority Support</li>
-          </ul>
-          <a href="https://app.balihos.my.id/" class="btn btn-outline">Contact Sales →</a>
-        </div>
+      <div>
+        <div class="footer-col-h">Product</div>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Roadmap</a></li>
+          <li><a href="#">API Docs</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-h">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Video Tutorials</a></li>
+          <li><a href="#">System Status</a></li>
+          <li><a href="https://wa.me/6282229771959" target="_blank">Contact Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-h">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Team</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Partners</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <!-- ===== TESTIMONIALS ===== -->
-  <section class="testimonials">
-    <div class="testimonials-inner">
-      <div class="text-center">
-        <div class="section-label">✦ Client Stories</div>
-        <h2 class="section-title">Trusted by Hospitality<br><span class="gold">Professionals Across Indonesia</span>
-        </h2>
-        <div class="gold-line"></div>
-        <p class="section-sub">Real results from real property managers who've transformed their operations with
-          BaliHos.</p>
-      </div>
-      <div class="testi-grid">
-        <div class="testi-card">
-          <div class="testi-quote">"</div>
-          <div class="stars">★★★★★</div>
-          <p class="testi-text">BaliHos completely transformed how we manage our 3 villa properties in Bali. Bookings
-            are up 40%, and I can now run everything from my phone. The dashboard is simply brilliant.</p>
-          <div class="testi-author">
-            <div class="author-avatar">IR</div>
-            <div>
-              <div class="author-name">Indira Rahayu</div>
-              <div class="author-role">Owner, Bali Serenity Villas</div>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-quote">"</div>
-          <div class="stars">★★★★★</div>
-          <p class="testi-text">As a hotel group operating 8 properties across Java, we needed a system that could scale
-            with us. BaliHos's multi-property dashboard and financial reports save us 30+ hours a month.</p>
-          <div class="testi-author">
-            <div class="author-avatar">MH</div>
-            <div>
-              <div class="author-name">Muhammad Hendra</div>
-              <div class="author-role">COO, Nusantara Hospitality Group</div>
-            </div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-quote">"</div>
-          <div class="stars">★★★★★</div>
-          <p class="testi-text">The channel management feature alone was worth switching to BaliHos. We're now listed on
-            12 OTAs simultaneously with zero double-booking incidents. Exceptional product, exceptional team.</p>
-          <div class="testi-author">
-            <div class="author-avatar">SW</div>
-            <div>
-              <div class="author-name">Sita Widiastuti</div>
-              <div class="author-role">GM, Palm Cove Resort Lombok</div>
-            </div>
-          </div>
-        </div>
+    <div class="footer-bottom">
+      <p>© 2024 BaliHos Technologies. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
       </div>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <!-- ===== CTA ===== -->
-  <section class="cta-section" id="contact">
-    <div class="container">
-      <div class="section-label">✦ Get Started Today</div>
-      <h2>Ready to Digitize Your<br>Property Management?</h2>
-      <p>Join 2,500+ property managers already running smarter operations with BaliHos. No setup fees. No long-term
-        contracts.</p>
-      <div class="cta-btns">
-        <a href="#pricing" class="btn btn-gold">✦ Schedule a Demo</a>
-        <a href="#pricing" class="btn btn-outline">View Pricing →</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">BALI<span>HOS</span></div>
-          <p>The all-in-one hotel and villa management platform built for modern hospitality professionals who demand
-            efficiency, elegance, and intelligence.</p>
-          <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20info%20lebih%20lanjut."
-            target="_blank" rel="noopener"
-            style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:0.82rem;font-weight:600;margin-bottom:20px;transition:all 0.3s ease;text-decoration:none;">
-            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-              <path
-                d="M16 5C10.477 5 6 9.477 6 15c0 1.882.516 3.642 1.414 5.156L6 26l5.992-1.398A9.946 9.946 0 0016 25c5.523 0 10-4.477 10-10S21.523 5 16 5z"
-                fill="white" />
-              <path
-                d="M21.5 18.5c-.3-.15-1.767-.872-2.04-.97-.274-.1-.473-.15-.672.15-.2.3-.772.97-.946 1.17-.174.2-.347.22-.647.075-.3-.15-1.266-.466-2.41-1.485-.89-.795-1.49-1.776-1.665-2.076-.174-.3-.018-.462.13-.61.134-.134.3-.347.45-.52.15-.174.2-.3.3-.498.1-.2.05-.373-.025-.522-.075-.15-.672-1.62-.92-2.22-.243-.582-.49-.503-.673-.513-.174-.008-.373-.01-.572-.01-.2 0-.522.075-.795.373-.274.3-1.044 1.02-1.044 2.487 0 1.467 1.069 2.884 1.218 3.083.15.2 2.1 3.207 5.088 4.497.712.307 1.267.49 1.7.628.714.228 1.365.196 1.878.119.573-.085 1.766-.722 2.016-1.42.25-.697.25-1.294.175-1.42-.075-.125-.274-.2-.573-.347z"
-                fill="#25D366" />
-            </svg>
-            +62 822-2977-1959
-          </a>
-          <div class="social-links">
-            <a href="#" class="social-link">in</a>
-            <a href="#" class="social-link">𝕏</a>
-            <a href="#" class="social-link">ig</a>
-            <a href="#" class="social-link">yt</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <h4>Product</h4>
-          <ul class="footer-links">
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Changelog</a></li>
-            <li><a href="#">Roadmap</a></li>
-            <li><a href="#">API Docs</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Support</h4>
-          <ul class="footer-links">
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="#">Video Tutorials</a></li>
-            <li><a href="#">System Status</a></li>
-            <li><a href="#">Contact Support</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>About</h4>
-          <ul class="footer-links">
-            <li><a href="#">Our Story</a></li>
-            <li><a href="#">Team</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Partners</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2024 BaliHos Technologies. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Cookie Policy</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+<!-- ═══════════════════════════════════════════
+     WHATSAPP FLOAT
+════════════════════════════════════════════ -->
+<a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20mengetahui%20lebih%20lanjut%20tentang%20sistem%20manajemen%20properti%20Anda." class="wa-float" target="_blank" rel="noopener" aria-label="Chat via WhatsApp">
+  <div class="wa-dot"></div>
+  <svg width="22" height="22" viewBox="0 0 32 32" fill="none">
+    <path d="M16 3C8.832 3 3 8.832 3 16c0 2.385.638 4.617 1.748 6.545L3 29l6.627-1.734A12.928 12.928 0 0016 29c7.168 0 13-5.832 13-13S23.168 3 16 3z" fill="white" fill-opacity="0.2"/>
+    <path d="M16 5C9.935 5 5 9.935 5 16c0 1.988.522 3.853 1.435 5.467L5 27l5.677-1.42A10.96 10.96 0 0016 27c6.065 0 11-4.935 11-11S22.065 5 16 5z" fill="white"/>
+    <path d="M21.5 18.5c-.3-.15-1.767-.872-2.04-.97-.274-.1-.473-.15-.672.15-.2.3-.772.97-.946 1.17-.174.2-.347.22-.647.075-.3-.15-1.266-.466-2.41-1.485-.89-.795-1.49-1.776-1.665-2.076-.174-.3-.018-.462.13-.61.134-.134.3-.347.45-.52.15-.174.2-.3.3-.498.1-.2.05-.373-.025-.522-.075-.15-.672-1.62-.92-2.22-.243-.582-.49-.503-.673-.513-.174-.008-.373-.01-.572-.01-.2 0-.522.075-.795.373-.274.3-1.044 1.02-1.044 2.487 0 1.467 1.069 2.884 1.218 3.083.15.2 2.1 3.207 5.088 4.497.712.307 1.267.49 1.7.628.714.228 1.365.196 1.878.119.573-.085 1.766-.722 2.016-1.42.25-.697.25-1.294.175-1.42-.075-.125-.274-.2-.573-.347z" fill="#25D366"/>
+  </svg>
+  <span>Chat WhatsApp</span>
+</a>
 
-  <!-- ===== WHATSAPP FLOATING BUTTON ===== -->
-  <a href="https://wa.me/6282229771959?text=Halo%20BaliHos%2C%20saya%20ingin%20mengetahui%20lebih%20lanjut%20tentang%20sistem%20manajemen%20properti%20Anda."
-    class="wa-float" target="_blank" rel="noopener">
-    <div class="wa-pulse"></div>
-    <svg class="wa-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="16" fill="white" fill-opacity="0.15" />
-      <path
-        d="M16 5C10.477 5 6 9.477 6 15c0 1.882.516 3.642 1.414 5.156L6 26l5.992-1.398A9.946 9.946 0 0016 25c5.523 0 10-4.477 10-10S21.523 5 16 5z"
-        fill="white" />
-      <path
-        d="M21.5 18.5c-.3-.15-1.767-.872-2.04-.97-.274-.1-.473-.15-.672.15-.2.3-.772.97-.946 1.17-.174.2-.347.22-.647.075-.3-.15-1.266-.466-2.41-1.485-.89-.795-1.49-1.776-1.665-2.076-.174-.3-.018-.462.13-.61.134-.134.3-.347.45-.52.15-.174.2-.3.3-.498.1-.2.05-.373-.025-.522-.075-.15-.672-1.62-.92-2.22-.243-.582-.49-.503-.673-.513-.174-.008-.373-.01-.572-.01-.2 0-.522.075-.795.373-.274.3-1.044 1.02-1.044 2.487 0 1.467 1.069 2.884 1.218 3.083.15.2 2.1 3.207 5.088 4.497.712.307 1.267.49 1.7.628.714.228 1.365.196 1.878.119.573-.085 1.766-.722 2.016-1.42.25-.697.25-1.294.175-1.42-.075-.125-.274-.2-.573-.347z"
-        fill="#25D366" />
-    </svg>
-    Chat WhatsApp
-  </a>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Hamburger / mobile nav ── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileNav  = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  function closeMobile() {
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* Close mobile nav on outside click */
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+      closeMobile();
+    }
+  });
+
+  /* ── Scroll Reveal (Intersection Observer) ── */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  /* ── Smooth hash scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        closeMobile();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  /* ── Tab interaction (dashboard preview) ── */
+  document.querySelectorAll('.pui-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.pui-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  /* ── Animated number counter ── */
+  function animateCount(el, target, suffix = '') {
+    const duration = 1800;
+    const start = performance.now();
+    const update = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      el.textContent = current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statNums = document.querySelectorAll('.stat-num');
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el  = entry.target;
+        const txt = el.textContent;
+        const num = parseFloat(txt.replace(/[^0-9.]/g, ''));
+        const suf = txt.replace(/[0-9.,]/g, '').trim();
+        animateCount(el, num, suf);
+        statsObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => statsObserver.observe(el));
+</script>
 
 </body>
-
 </html>
