@@ -3489,27 +3489,30 @@
         // ── RENDER ROOM CARD ──────────────────────────────────────────
         function renderCard(room, nights) {
 
-            const price = parseFloat(room.price_per_night || 0);
-            const total = parseFloat(room.total_price || 0);
-            const availableUnits = parseInt(room.available_units || 0);
+    const price = parseFloat(room.price_per_night || 0);
+    const total = parseFloat(room.total_price || 0);
+    const availableUnits = parseInt(room.available_units || 0);
 
-            const status = availableUnits > 0
-                ? { label: `${availableUnits} Rooms Available`, cls: 'available' }
-                : { label: 'Sold Out', cls: 'unavailable' };
+    const status = availableUnits > 0
+        ? { label: `${availableUnits} Rooms Available`, cls: 'available' }
+        : { label: 'Sold Out', cls: 'unavailable' };
 
-            const isAvail = availableUnits > 0;
+    const isAvail = availableUnits > 0;
 
-            return `
+    return `
     <div class="avail-card">
       <div class="avail-card-img-wrapper">
-        <div class="avail-card-img-placeholder">🏨</div>
+        <img 
+          src="${room.image || 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80'}"
+          alt="${room.name}"
+          class="avail-card-img"
+        />
         <span class="avail-card-status ${status.cls}">
           ${status.label}
         </span>
       </div>
 
       <div class="avail-card-body">
-
         <div class="avail-card-category">Room Category</div>
         <div class="avail-card-name">${room.name}</div>
 
@@ -3525,18 +3528,16 @@
           </div>
 
           <button 
-  class="btn-avail-book" 
-  ${!isAvail ? 'disabled' : ''}
-  onclick="handleBookRoom('${room.category_id}', '${room.name}', ${room.price_per_night})">
-
+            class="btn-avail-book" 
+            ${!isAvail ? 'disabled' : ''}
+            onclick="handleBookRoom('${room.category_id}', '${room.name}', ${room.price_per_night})">
             ${isAvail ? 'Book Now' : 'Unavailable'}
           </button>
         </div>
-
       </div>
     </div>
   `;
-        }
+}
 
 
         // ── MODAL STATE ───────────────────────────────────────────────
