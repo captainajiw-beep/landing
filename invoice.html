@@ -92,6 +92,35 @@
     .btn-pay:hover {
         opacity: 0.9;
     }
+    .btn-pay {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #2f5bd3, #3f6ae0);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.payment-box {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.payment-item {
+  margin-bottom: 15px;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-5px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 </style>
 
 <div class="invoice-wrapper">
@@ -138,8 +167,33 @@
         </div>
     </div>
 
-    <button id="btn-pay" class="btn-pay">Pay Now</button>
+    <button class="btn-pay" onclick="showPayment()">
+  Pay Now
+</button>
+<div id="paymentSection" class="payment-box">
+  <h4>Payment Information</h4>
 
+  <div class="payment-item">
+    <strong>Bank BCA</strong><br>
+    No Rekening: 1234567890<br>
+    Atas Nama: PT Bali Hotel Sejahtera
+  </div>
+
+  <div class="payment-item">
+    <strong>Bank Mandiri</strong><br>
+    No Rekening: 9876543210<br>
+    Atas Nama: PT Bali Hotel Sejahtera
+  </div>
+
+  <div class="payment-item">
+    <strong>DANA</strong><br>
+    081234567890
+  </div>
+
+  <small style="color: #888;">
+    *Silakan transfer sesuai total invoice dan kirim bukti pembayaran.
+  </small>
+</div>
 </div>
 
 <script>
@@ -304,4 +358,15 @@
         }
     }
 
+</script>
+<script>
+function showPayment() {
+  const section = document.getElementById('paymentSection');
+  
+  if (section.style.display === "none" || section.style.display === "") {
+    section.style.display = "block";
+  } else {
+    section.style.display = "none";
+  }
+}
 </script>
